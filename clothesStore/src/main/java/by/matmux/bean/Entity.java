@@ -2,6 +2,15 @@ package by.matmux.bean;
 
 public abstract class Entity {
 	private Integer identity;
+	
+	public Integer getIdentity() {
+		return identity;
+	}
+
+	public void setIdentity(Integer identity) {
+		this.identity = identity;
+	}
+
 	@Override
 	public boolean equals(Object object) {
 		if (object != null) {

@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public final class ConnectionPool {
-	private static final Logger logger = Lo
+	private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
 
 	private String url;
 	private String user;
@@ -71,7 +71,8 @@ public final class ConnectionPool {
 		}
 	}
 
-	public synchronized void init(String driverClass, String url, String user, String password, int startSize, int maxSize, int checkConnectionTimeout) throws PersistentException {
+	public synchronized void init(String driverClass, String url, String user, String password, int startSize,
+			int maxSize, int checkConnectionTimeout) /* throws PersistentException */ {
 		try {
 			destroy();
 			Class.forName(driverClass);
@@ -85,7 +86,6 @@ public final class ConnectionPool {
 			}
 		} catch(ClassNotFoundException | SQLException | InterruptedException e) {
 			logger.fatal("It is impossible to initialize connection pool", e);
-			throw new PersistentException(e);
 		}
 	}
 

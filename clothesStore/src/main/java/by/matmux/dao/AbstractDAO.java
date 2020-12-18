@@ -5,15 +5,11 @@ import java.util.List;
 import by.matmux.bean.Entity;
 
 public interface AbstractDAO<K, T extends Entity> {
-	public abstract List<T> findAll();
+	T read(Integer identity);
+	
+	public void delete(K id);
 
-	public abstract T findEntityById(K id);
+	public Integer create(T entity);
 
-	public abstract boolean delete(K id);
-
-	public abstract boolean delete(T entity);
-
-	public abstract boolean create(T entity);
-
-	public abstract T update(T entity);
+	public void update(T entity);
 }

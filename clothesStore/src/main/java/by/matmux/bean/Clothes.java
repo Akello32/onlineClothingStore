@@ -1,21 +1,32 @@
 package by.matmux.bean;
 
+import java.math.BigDecimal;
+
 /**
  * @author mustafarara
  * 
  */
 public class Clothes extends Entity {
-	private int price;
+	private BigDecimal price;
 	private int numbers;
 	private int brandId;
-	private int typed;
+	private int typeId;
 	private String size;
+	private String color;
+	
+	public String getColor() {
+		return color;
+	}
 
-	public int getPrice() {
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
@@ -35,12 +46,12 @@ public class Clothes extends Entity {
 		this.brandId = brandId;
 	}
 
-	public int getTyped() {
-		return typed;
+	public int getTypeId() {
+		return typeId;
 	}
 
-	public void setTyped(int typed) {
-		this.typed = typed;
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 
 	public String getSize() {
