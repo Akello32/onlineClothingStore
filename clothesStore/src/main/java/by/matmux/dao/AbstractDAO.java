@@ -1,15 +1,14 @@
 package by.matmux.dao;
 
-import java.util.List;
-
 import by.matmux.bean.Entity;
+import by.matmux.exception.PersistentException;
 
-public interface AbstractDAO<K, T extends Entity> {
-	T read(Integer identity);
+public interface AbstractDAO<T extends Entity> {
+	public Integer create(T entity) throws PersistentException;
 	
-	public void delete(K id);
-
-	public Integer create(T entity);
-
-	public void update(T entity);
+	T read(Integer identity) throws PersistentException;
+	
+	public void update(T entity) throws PersistentException;
+	
+	public void delete(Integer id) throws PersistentException;
 }

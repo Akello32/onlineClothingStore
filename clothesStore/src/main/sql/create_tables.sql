@@ -37,7 +37,7 @@ CREATE TABLE `clothes` (
 	`identity` INTEGER NOT NULL AUTO_INCREMENT,
 	`price` DECIMAL NOT NULL,
 	`numbers` INTEGER NOT NULL, 
-	`image` VARCHAR(255) NOT NULL, 
+	`image` VARCHAR(8000) NOT NULL, 
 	`size` VARCHAR(10) NOT NULL,
 	`color` VARCHAR(70) NOT NULL,
 	`typeID` INTEGER NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE `ordered_clothes` (
 	FOREIGN KEY (`thing_id`)
 	REFERENCES `clothes` (`identity`)
 	ON UPDATE CASCADE
-	ON DELETE NO ACTION
+	ON DELETE RESTRICT
 	FOREIGN KEY (`order_id`)
 	REFERENCES `orders` (`identity`)
 	ON UPDATE CASCADE

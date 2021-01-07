@@ -4,6 +4,6 @@ import java.util.List;
 
 import by.matmux.bean.Discount;
 
-public interface DiscountsDao extends AbstractDAO<Integer, Discount>{
+public interface DiscountsDao extends AbstractDAO<Discount>{
 	List<Discount> getDiscountByDate();
 }

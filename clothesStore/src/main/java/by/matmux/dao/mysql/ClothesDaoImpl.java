@@ -13,12 +13,13 @@ import org.apache.logging.log4j.Logger;
 
 import by.matmux.bean.Clothes;
 import by.matmux.dao.ClothesDao;
+import by.matmux.exception.PersistentException;
 
 public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 	private static final Logger log = LogManager.getLogger(ClothesDaoImpl.class);
 
 	@Override
-	public Integer create(Clothes entity) {
+	public Integer create(Clothes entity) throws PersistentException {
 		String sql = "INSERT INTO `books` (`price`, `numbers`, `size`, `color`, `typeID`, `brandID`) "
 				+ "VALUES (?, ?, ?, ?, ?, ?)";
 		PreparedStatement statement = null;
@@ -37,24 +38,29 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 				return resultSet.getInt(1);
 			} else {
 				log.error("There is no autoincremented index after trying to add record into table `books`");
+				throw new PersistentException();
 			}
 		} catch (SQLException e) {
 			log.error("There ");
+			throw new PersistentException(e);
 		} finally {
 			try {
-				resultSet.close();
-			} catch (SQLException | NullPointerException e) {
-			}
+				if (resultSet != null) {
+					resultSet.close();
+				}
+			} catch (SQLException e) {}
 			try {
-				statement.close();
-			} catch (SQLException | NullPointerException e) {
-			}
+				if (statement != null) {
+					statement.close();
+				} else {
+					log.debug("null");
+				}
+			} catch (SQLException e) {}
 		}
-		return null;
 	}
 
 	@Override
-	public Clothes read(Integer identity) {
+	public Clothes read(Integer identity) throws PersistentException {
 		String sql = "SELECT `price` = ?, `numbers` = ?, "
 				+ "`size` = ?, `color` = ?, `typeID` = ?, `brandID` = ?, FROM `clothes` WHERE `identity` = ?";
 		PreparedStatement statement = null;
@@ -64,6 +70,7 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			resultSet = statement.executeQuery();
 			if (resultSet.next()) {
+				clothes = new Clothes();
 				clothes.setIdentity(identity);
 				clothes.setPrice(resultSet.getBigDecimal("price"));
 				clothes.setNumbers(resultSet.getInt("numbers"));
@@ -75,7 +82,7 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 			return clothes;
 		} catch(SQLException e) {
 			log.error("SQLExeption when performing a read operation");
-			
+			throw new PersistentException();
 		} finally {
 			try {
 				resultSet.close();
@@ -84,11 +91,10 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 				statement.close();
 			} catch(SQLException | NullPointerException e) {}
 		}
-		return clothes;
 	}
 
 	@Override
-	public void update(Clothes entity) {
+	public void update(Clothes entity) throws PersistentException  {
 		String sql = "UPDATE `clothes` SET `price` = ?, `numbers` = ?, "
 				+ "`size` = ?, `color` = ?, `typeID` = ?, `brandID` = ?, WHERE `identity` = ?";
 		PreparedStatement statement = null;
@@ -104,16 +110,20 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			log.error("SQLException when performing a update operation");
+			throw new PersistentException(e);
 		} finally {
 			try {
-				statement.close();
-			} catch (SQLException | NullPointerException e) {
-			}
+				if (statement != null) {
+					statement.close();
+				} else {
+					log.debug("null");
+				}
+			} catch (SQLException e) {}
 		}
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(Integer id) throws PersistentException {
 		String sql = "DELETE FROM `clothes` WHERE`identity` = ?";
 		PreparedStatement statement = null;
 		try {
@@ -122,24 +132,28 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 			statement.executeUpdate();
 		} catch(SQLException e) {
 			log.error("SQLException when performing a delete operation");
+			throw new PersistentException(e);
 		} finally {
 			try {
-				statement.close();
-			} catch(SQLException | NullPointerException e) {}
+				if (statement != null) {
+					statement.close();
+				} else {
+					log.debug("null");
+				}
+			} catch (SQLException e) {}
 		}
 	}
 
 	@Override
-	public List<Clothes> readClothesByBrand(String brand) {
+	public List<Clothes> readClothesByBrand(Integer brand) throws PersistentException {
 		String sql = "SELECT `price` = ?, `numbers` = ?, "
-				+ "`size` = ?, `color` = ?, `typeID` = ?, `brandID` = ?, WHERE `brand`, LIKE ?, ORDER BY `brand`" ;
+				+ "`size` = ?, `color` = ?, `typeID` = ?, `brandID` = ?, FROM `clothes` WHERE `identity` = ?";
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		try {
 			Clothes clothes = null;
 			List<Clothes> clotheList = new ArrayList<>();
 			statement = connection.prepareStatement(sql);	
-			statement.setString(1, "%" + brand + "%");
 			resultSet = statement.executeQuery();
 		while(resultSet.next()) {
 			clothes = new Clothes();
@@ -154,20 +168,23 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 		}
 		return clotheList;
 	} catch(SQLException e) {
-		log.error("SQLException when performing a read clothes by brand operation");
+		throw new PersistentException(e);
 	} finally {
 		try {
-			resultSet.close();
-		} catch(SQLException | NullPointerException e) {}
+			if (resultSet != null) {
+				resultSet.close();
+			}
+		} catch (SQLException e) {}
 		try {
-			statement.close();
-		} catch(SQLException | NullPointerException e) {}
+			if (resultSet != null) {
+				statement.close();
+			}
+		} catch(SQLException e) {}
 	}
-		return null;
 	}
 
 	@Override
-	public List<Clothes> readClothesBySize(String size) {
+	public List<Clothes> readClothesBySize(String size) throws PersistentException {
 		String sql = "SELECT `price` = ?, `numbers` = ?, "
 				+ "`size` = ?, `color` = ?, `typeID` = ?, `brandID` = ?, WHERE `size`, LIKE ?, ORDER BY `size`" ;
 		PreparedStatement statement = null;
@@ -191,27 +208,97 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 		}
 		return clotheList;
 	} catch(SQLException e) {
-		log.error("SQLException when performing a read clothes by brand operation");
+		throw new PersistentException(e);
 	} finally {
 		try {
-			resultSet.close();
-		} catch(SQLException | NullPointerException e) {}
+			if (resultSet != null) {
+				resultSet.close();
+			}
+		} catch (SQLException e) {}
 		try {
-			statement.close();
-		} catch(SQLException | NullPointerException e) {}
+			if (resultSet != null) {
+				statement.close();
+			}
+		} catch(SQLException e) {}
 	}
-		return null;
-	}
-
-	@Override
-	public List<Clothes> readClothesByType(Integer typeId) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public List<Clothes> readClothesByColor(String color) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Clothes> readClothesByType(Integer typeId) throws PersistentException {
+		String sql = "SELECT `price` = ?, `numbers` = ?, "
+				+ "`size` = ?, `color` = ?, `typeID` = ?, `brandID` = ?, WHERE `size`, LIKE ?, ORDER BY `price`" ;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			Clothes clothes = null;
+			List<Clothes> clotheList = new ArrayList<>();
+			statement = connection.prepareStatement(sql);	
+			resultSet = statement.executeQuery();
+		while(resultSet.next()) {
+			clothes = new Clothes();
+			clothes.setIdentity(resultSet.getInt("identity"));
+			clothes.setPrice(resultSet.getBigDecimal("price"));
+			clothes.setNumbers(resultSet.getInt("numbers"));
+			clothes.setSize(resultSet.getString("size"));
+			clothes.setColor(resultSet.getString("color"));
+			clothes.setTypeId(resultSet.getInt("typeID"));
+			clothes.setBrandId(resultSet.getInt("brandID"));
+			clotheList.add(clothes);
+		}
+		return clotheList;
+	} catch(SQLException e) {
+		throw new PersistentException(e);
+	} finally {
+		try {
+			if (resultSet != null) {
+				resultSet.close();
+			}
+		} catch (SQLException e) {}
+		try {
+			if (resultSet != null) {
+				statement.close();
+			}
+		} catch(SQLException e) {}
+	}
+	}
+
+	@Override
+	public List<Clothes> readClothesByColor(String color) throws PersistentException {
+		String sql = "SELECT `price` = ?, `numbers` = ?, "
+				+ "`size` = ?, `color` = ?, `typeID` = ?, `brandID` = ?, WHERE `color`, LIKE ?, ORDER BY `color`" ;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			Clothes clothes = null;
+			List<Clothes> clotheList = new ArrayList<>();
+			statement = connection.prepareStatement(sql);	
+			statement.setString(1, "%" + color + "%");
+			resultSet = statement.executeQuery();
+		while(resultSet.next()) {
+			clothes = new Clothes();
+			clothes.setIdentity(resultSet.getInt("identity"));
+			clothes.setPrice(resultSet.getBigDecimal("price"));
+			clothes.setNumbers(resultSet.getInt("numbers"));
+			clothes.setSize(resultSet.getString("size"));
+			clothes.setColor(resultSet.getString("color"));
+			clothes.setTypeId(resultSet.getInt("typeID"));
+			clothes.setBrandId(resultSet.getInt("brandID"));
+			clotheList.add(clothes);
+		}
+		return clotheList;
+	} catch(SQLException e) {
+		throw new PersistentException(e);
+	} finally {
+		try {
+			if (resultSet != null) {
+				resultSet.close();
+			}
+		} catch (SQLException e) {}
+		try {
+			if (resultSet != null) {
+				statement.close();
+			}
+		} catch(SQLException e) {}
+	}
 	}
 }

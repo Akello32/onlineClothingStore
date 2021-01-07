@@ -4,6 +4,6 @@ import java.util.List;
 
 import by.matmux.bean.Review;
 
-public interface ReviewDao extends AbstractDAO<Integer, Review>{
+public interface ReviewDao extends AbstractDAO<Review>{
 	List<Review> getReviewByDate();
 }
