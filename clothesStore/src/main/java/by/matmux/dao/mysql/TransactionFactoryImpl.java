@@ -9,22 +9,24 @@ import org.apache.logging.log4j.Logger;
 import by.matmux.dao.Transaction;
 import by.matmux.dao.TransactionFactory;
 import by.matmux.dao.pool.ConnectionPool;
+import by.matmux.exception.PersistentException;
 
 public class TransactionFactoryImpl implements TransactionFactory {
 	private static Logger logger = LogManager.getLogger(TransactionFactoryImpl.class);
 	private Connection connection;
 	
-	public TransactionFactoryImpl(){
+	public TransactionFactoryImpl() throws PersistentException {
 		connection = ConnectionPool.getInstance().getConnection();
 		try {
 			connection.setAutoCommit(false);
 		} catch(SQLException e) {
 			logger.error("It is impossible to turn off autocommiting for database connection", e);
+			throw new PersistentException(e);
 		}
 	}
 
 	@Override
-	public Transaction createTransaction() {
+	public Transaction createTransaction() throws PersistentException {
 		return new TransactionImpl(connection);
 	}
 

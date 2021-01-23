@@ -13,6 +13,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.matmux.exception.PersistentException;
+
 public final class ConnectionPool {
 	private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
 
@@ -29,11 +31,11 @@ public final class ConnectionPool {
 	private ConnectionPool() {
 	}
 
-	public Connection getConnection() {
+	public Connection getConnection() throws PersistentException {
 		PooledConnection connection = null;
 		while (connection == null) {
+			lock.lock();
 			try {
-				lock.lock();
 				if (!freeConnections.isEmpty()) {
 					connection = freeConnections.take();
 					if (!connection.isValid(checkConnectionTimeout)) {
@@ -47,11 +49,11 @@ public final class ConnectionPool {
 				} else if (usedConnections.size() < maxSize) {
 					connection = createConnection();
 				} else {
-					logger.error("The limit of number of database connections is exceeded");
+					logger.debug("The limit of number of database connections is exceeded");
 				}
 			} catch (InterruptedException | SQLException e) {
 				logger.error("It is impossible to connect to a database", e);
-				Thread.currentThread().interrupt();
+				throw new PersistentException(e);
 			} finally {
 				lock.unlock();
 			}
@@ -88,7 +90,7 @@ public final class ConnectionPool {
 	}
 
 	public void init(String driverClass, String url, String user, String password, int startSize,
-			int maxSize, int checkConnectionTimeout) /* throws PersistentException */ {
+			int maxSize, int checkConnectionTimeout) throws PersistentException {
 		try {
 			lock.lock();
 			destroy();
@@ -103,7 +105,7 @@ public final class ConnectionPool {
 			}
 		} catch (ClassNotFoundException | SQLException | InterruptedException e) {
 			logger.fatal("It is impossible to initialize connection pool", e);
-			Thread.currentThread().interrupt();
+			throw new PersistentException(e);
 		} finally {
 			lock.unlock();
 		}

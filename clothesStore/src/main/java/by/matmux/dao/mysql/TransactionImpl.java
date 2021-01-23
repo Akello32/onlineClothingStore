@@ -13,6 +13,8 @@ import by.matmux.dao.ClothesDao;
 import by.matmux.dao.OrderDao;
 import by.matmux.dao.Transaction;
 import by.matmux.dao.UserDao;
+import by.matmux.exception.PersistentException;
+
 
 public class TransactionImpl implements Transaction {
 	private static final Logger log = LogManager.getLogger(TransactionImpl.class);
@@ -32,7 +34,7 @@ public class TransactionImpl implements Transaction {
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
-	public <Type extends AbstractDAO<?>> Type createDao(Class<Type> key) {
+	public <Type extends AbstractDAO<?>> Type createDao(Class<Type> key) throws PersistentException {
 		Class<? extends BaseDaoImpl> value = classes.get(key);
 		if(value != null) {
 			try {
@@ -41,6 +43,7 @@ public class TransactionImpl implements Transaction {
 				return (Type)dao;
 			} catch(InstantiationException | IllegalAccessException e) {
 				log.error("It is impossible to create data access object");
+				throw new PersistentException(e);
 			}
 		}
 		return null;
