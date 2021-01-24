@@ -26,9 +26,9 @@ public class DispatcherServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(DispatcherServlet.class);
 
 	public static final String DB_DRIVER_CLASS = "com.mysql.jdbc.Driver";
-	public static final String DB_URL = "jdbc:mysql://localhost:3306/clothesDB?useUnicode=true&characterEncoding=UTF-8";
-	public static final String DB_USER = "clothes_user";
-	public static final String DB_PASSWORD = "clothes_password";
+	public static final String DB_URL = "jdbc:mysql://localhost:3306/clothingDB?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
+	public static final String DB_USER = "akello";
+	public static final String DB_PASSWORD = "2003/2003";
 	public static final int DB_POOL_START_SIZE = 10;
 	public static final int DB_POOL_MAX_SIZE = 1000;
 	public static final int DB_POOL_CHECK_CONNECTION_TIMEOUT = 0;
@@ -39,6 +39,7 @@ public class DispatcherServlet extends HttpServlet {
 					DB_POOL_START_SIZE, DB_POOL_MAX_SIZE, DB_POOL_CHECK_CONNECTION_TIMEOUT);
 		} catch (PersistentException e) {
 			logger.error("It is impossible to initialize application", e);
+			destroy();
 		}
 	}
 	
@@ -67,26 +68,16 @@ public class DispatcherServlet extends HttpServlet {
 			}		 
 			ServiceFactoryImpl factoryImpl = new ServiceFactoryImpl(new TransactionFactoryImpl());
 			ClothesService cImpl = factoryImpl.getService(ClothesService.class);
-			List<Clothes> list = cImpl.findClothesByBrand(1);
+			List<Clothes> list = cImpl.findClothesBySize("L");
 			req.setAttribute("list", list);
-			for(Clothes c : list) {
-				logger.debug(c.getBrandId() + "\n");
-			}
-			req.getRequestDispatcher("jsp/tes.jsp").forward(req, resp);
+			req.getRequestDispatcher("WEB-INF/jsp/tes.jsp").forward(req, resp);
 		} catch (PersistentException e) {
-			logger.debug(e.getMessage());
-			/* 
-			 * "/webapp/WEB-INF/jsp/tes.jsp"
-			 * /src/main/webapp/WEB-INF/jsp/tes.jsp
-			 */		
+			logger.debug(e.getMessage());	
 		} catch (ServletException e) {
 			logger.debug(e.getMessage());
-
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			logger.debug(e.getMessage());
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 	}
