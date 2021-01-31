@@ -12,12 +12,19 @@ body {
 }
 
 a {
+	color: white;
 	margin-right: 50px;	
+	text-decoration: none;
+}
+
+#logo {
+	width: 95px;
+	padding-top: 4;
 }
 
 .header {
   background: black;
-  height: 150px;
+  height: 165px;
   color: white;
 }
 
@@ -26,14 +33,14 @@ a {
   font-size: 14px;
   position: fixed;
   line-height: 40px;
-  height: 50px;
+  height: 65px;
   text-indent: 20px;
   width: 100%;
   color: black;
 }
 
 .header-notFixed {
-  line-height: 200px;
+  line-height: 220px;
   text-align: center;
   font-size: 28px;
 }
@@ -44,7 +51,7 @@ a {
 }
 
 .header-popUp {
-	line-height: 110px;
+	line-height: 95px;
 	text-align: center;
 	color: #000000;
 	font-size: 45px;
@@ -52,18 +59,6 @@ a {
     margin-left: auto;
     margin-right: auto;
 	background: #C4C4C4;
-	height: 115px;
+	height: 95px;
 	width: 85%;
-	position: relative;
 }
-
-/****  Content  ****/
-/* .content {
-  width: 80%;
-  max-width: 1200px;
-  background: #ffffff;
-  margin: 150px auto;
-  min-height: 700px;
-  padding: 100px;
-  color: #444;
-} */

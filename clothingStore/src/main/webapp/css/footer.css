@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+footer {
+	background: black;
+	height: 150px;
+	color: white;
+	font-size: 20px;
+	width: 100%;
+	margin: -100px auto 0;
+	position: relative;
+}
+
+#logo1 {
+	width: 240px;
+	padding: 10px;
+}
+
+#contacts {
+  display: inline;
+  text-align: right;
+  padding: 20px;
+}
