@@ -15,11 +15,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.matmux.bean.Clothes;
-import by.matmux.dao.mysql.TransactionFactoryImpl;
 import by.matmux.dao.pool.ConnectionPool;
 import by.matmux.exception.PersistentException;
 import by.matmux.service.ClothesService;
-import by.matmux.service.ServiceFactoryImpl;
+import by.matmux.service.ClothesServiceImpl;
+import by.matmux.service.ServiceEnum;
+import by.matmux.service.ServiceFactory;
 
 @WebServlet("/controller")
 public class DispatcherServlet extends HttpServlet {
@@ -66,8 +67,8 @@ public class DispatcherServlet extends HttpServlet {
 					session.removeAttribute("redirectedData");
 				}
 			}		 
-			ServiceFactoryImpl factoryImpl = new ServiceFactoryImpl(new TransactionFactoryImpl());
-			ClothesService cImpl = factoryImpl.getService(ClothesService.class);
+			ServiceFactory factoryImpl = new ServiceFactory();
+			ClothesService cImpl = (ClothesServiceImpl) factoryImpl.getService(ServiceEnum.CLOTHES);
 			List<Clothes> list = cImpl.findClothesBySize("L");
 			req.setAttribute("list", list);
 			req.getRequestDispatcher("WEB-INF/jsp/tes.jsp").forward(req, resp);

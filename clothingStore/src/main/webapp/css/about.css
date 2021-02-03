@@ -6,16 +6,9 @@
 	padding: 0;
 }
 
-html, body {
-	height: 100%;
-}
-
 .page {
-width: 100%;
-	margin: 0 auto;
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
+	min-height: 100vh;
+	position: relative;
 }
 
 img {
@@ -37,7 +30,7 @@ img {
 
 #about {
 	margin-top: 40px;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 	padding: 20px;
 	text-align: justify;
 	display: block;
