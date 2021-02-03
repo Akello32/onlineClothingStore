@@ -18,7 +18,7 @@
 	<div class="header-notFixed">
 		<nav>
 			<p>
-				<c:url value="/test.jsp" var="jspUrl" />
+				<c:url value="/catalog.jsp" var="jspUrl" />
 				<a href='${jspUrl}'>О НАС</a> <a href="">КАТАЛОГ</a>
 				 <a>КОРЗИНА</a> <a>ПРОФИЛЬ</a>
 			</p>

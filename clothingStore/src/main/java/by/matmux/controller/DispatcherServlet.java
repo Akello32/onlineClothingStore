@@ -1,7 +1,6 @@
 package by.matmux.controller;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -14,20 +13,18 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.matmux.bean.Clothes;
+import by.matmux.controller.command.BaseCommand;
+import by.matmux.controller.command.Forward;
 import by.matmux.dao.pool.ConnectionPool;
 import by.matmux.exception.PersistentException;
-import by.matmux.service.ClothesService;
-import by.matmux.service.ClothesServiceImpl;
-import by.matmux.service.ServiceEnum;
 import by.matmux.service.ServiceFactory;
 
-@WebServlet("/controller")
+@WebServlet(urlPatterns = { "*.html" })
 public class DispatcherServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(DispatcherServlet.class);
 
 	public static final String DB_DRIVER_CLASS = "com.mysql.jdbc.Driver";
-	public static final String DB_URL = "jdbc:mysql://localhost:3306/clothingDB?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8";
+	public static final String	 DB_URL = "jdbc:mysql://localhost:3306/clothingDB?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8";
 	public static final String DB_USER = "akello";
 	public static final String DB_PASSWORD = "2003/2003";
 	public static final int DB_POOL_START_SIZE = 10;
@@ -44,6 +41,11 @@ public class DispatcherServlet extends HttpServlet {
 		}
 	}
 	
+	public ServiceFactory getFactory() throws PersistentException {
+		return new ServiceFactory();
+	}
+
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		process(req, resp);
@@ -54,7 +56,8 @@ public class DispatcherServlet extends HttpServlet {
 		process(req, resp);
 	}
 	
-	public void process(HttpServletRequest req, HttpServletResponse resp) {
+	public void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		BaseCommand command = (BaseCommand) req.getAttribute("command");
 		try {
 			HttpSession session = req.getSession(false);
 			if(session != null) {
@@ -66,20 +69,33 @@ public class DispatcherServlet extends HttpServlet {
 					}
 					session.removeAttribute("redirectedData");
 				}
-			}		 
-			ServiceFactory factoryImpl = new ServiceFactory();
-			ClothesService cImpl = (ClothesServiceImpl) factoryImpl.getService(ServiceEnum.CLOTHES);
-			List<Clothes> list = cImpl.findClothesBySize("L");
-			req.setAttribute("list", list);
-			req.getRequestDispatcher("WEB-INF/jsp/tes.jsp").forward(req, resp);
-		} catch (PersistentException e) {
-			logger.debug(e.getMessage());	
-		} catch (ServletException e) {
-			logger.debug(e.getMessage());
-			e.printStackTrace();
-		} catch (IOException e) {
-			logger.debug(e.getMessage());
-			e.printStackTrace();
-		}	
+			}	
+			command.setFactory(getFactory());
+			Forward forward = command.execute(req, resp);
+			command.close();
+			if(session != null && forward != null && !forward.getAttributes().isEmpty()) {
+				session.setAttribute("redirectedData", forward.getAttributes());
+			}
+			String requestedUri = req.getRequestURI();
+			if(forward != null && forward.isRedirect()) {
+				String redirectedUri = req.getContextPath() + forward.getPath();
+				logger.debug(String.format("Request for URI \"%s\" id redirected to URI \"%s\"", requestedUri, redirectedUri));
+				resp.sendRedirect(redirectedUri);
+			} else {
+				String jspPage;
+				if(forward != null) {
+					jspPage = forward.getPath();
+				} else {
+					jspPage = command.getName() + ".jsp";
+				}
+				jspPage = "/WEB-INF/jsp" + jspPage;
+				logger.debug(String.format("Request for URI \"%s\" is forwarded to JSP \"%s\"", requestedUri, jspPage));
+				getServletContext().getRequestDispatcher(jspPage + ".jsp").forward(req, resp);
+			}
+		}	catch(PersistentException e) {
+			logger.error("It is impossible to process request", e);
+			req.setAttribute("error", "Ошибка обработки данных");
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, resp);
+		} 
 	}
 }

@@ -10,38 +10,72 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.matmux.controller.command.BaseCommand;
+import by.matmux.controller.command.Command;
+import by.matmux.controller.command.guest.CatalogCommand;
+import by.matmux.controller.command.guest.MainCommand;
+
 /**
  * Servlet Filter implementation class ActionFromURLFilter
  */
+@WebFilter(urlPatterns = { "*.jsp" })
 public class ActionFromUriFilter implements Filter {
-	private static Logger logger = LogManager.getLogger(ActionFromUriFilter.class);
-	
-	
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {	
-		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		
-		chain.doFilter(request, response);
-	}
+	private static final Logger logger = LogManager.getLogger(ActionFromUriFilter.class);
+	private static Map<String, BaseCommand> actions = new ConcurrentHashMap<>();
 
 	/**
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
+		actions.put("/", new MainCommand());
+		actions.put("/index", new MainCommand());
+		actions.put("/catalog", new CatalogCommand());
+	}
+
+	/**
+	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+	 */
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		if (request instanceof HttpServletRequest) {
+			HttpServletRequest httpRequest = (HttpServletRequest) request;
+			String contextPath = httpRequest.getContextPath();
+			String uri = httpRequest.getRequestURI();
+			logger.debug(String.format("Starting of processing of request for URI \"%s\"", uri));
+			int beginAction = contextPath.length();
+			int endAction = uri.lastIndexOf('.');
+			String actionName;
+			if (endAction >= 0) {
+				actionName = uri.substring(beginAction, endAction);
+			} else {
+				actionName = uri.substring(beginAction);
+			}
+
+			try {
+				BaseCommand command = actions.get(actionName);
+				command.setName(actionName);
+				httpRequest.setAttribute("command", command);
+				chain.doFilter(request, response);
+			} catch (Exception e) {
+				logger.error("It is impossible to create action handler object", e);
+				httpRequest.setAttribute("error",
+						String.format("Запрошенный адрес %s не может быть обработан сервером", uri));
+				httpRequest.getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request,
+						response);
+			}
+		} else {
+			logger.error("It is impossible to use HTTP filter");
+			request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
+		}
 	}
 
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
 
 }
