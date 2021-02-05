@@ -24,7 +24,7 @@ import by.matmux.controller.command.guest.MainCommand;
 /**
  * Servlet Filter implementation class ActionFromURLFilter
  */
-@WebFilter(urlPatterns = { "*.jsp" })
+@WebFilter(urlPatterns = { "*.html" })
 public class ActionFromUriFilter implements Filter {
 	private static final Logger logger = LogManager.getLogger(ActionFromUriFilter.class);
 	private static Map<String, BaseCommand> actions = new ConcurrentHashMap<>();
@@ -75,7 +75,6 @@ public class ActionFromUriFilter implements Filter {
 		}
 	}
 
-	public void destroy() {
-	}
+	public void destroy() {}
 
 }

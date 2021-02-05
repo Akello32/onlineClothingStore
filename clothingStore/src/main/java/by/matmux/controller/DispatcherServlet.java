@@ -21,6 +21,8 @@ import by.matmux.service.ServiceFactory;
 
 @WebServlet(urlPatterns = { "*.html" })
 public class DispatcherServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
 	private static Logger logger = LogManager.getLogger(DispatcherServlet.class);
 
 	public static final String DB_DRIVER_CLASS = "com.mysql.jdbc.Driver";
@@ -90,7 +92,7 @@ public class DispatcherServlet extends HttpServlet {
 				}
 				jspPage = "/WEB-INF/jsp" + jspPage;
 				logger.debug(String.format("Request for URI \"%s\" is forwarded to JSP \"%s\"", requestedUri, jspPage));
-				getServletContext().getRequestDispatcher(jspPage + ".jsp").forward(req, resp);
+				getServletContext().getRequestDispatcher(jspPage).forward(req, resp);
 			}
 		}	catch(PersistentException e) {
 			logger.error("It is impossible to process request", e);

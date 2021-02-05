@@ -11,7 +11,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.matmux.bean.Brand;
 import by.matmux.bean.Clothes;
+import by.matmux.bean.Type;
 import by.matmux.dao.ClothesDao;
 import by.matmux.exception.PersistentException;
 
@@ -20,7 +22,7 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 
 	@Override
 	public Integer create(Clothes entity) throws PersistentException {
-		String sql = "INSERT INTO `books` (`price`, `numbers`, `size`, `color`, `typeID`, `brandID`) "
+		String sql = "INSERT INTO `books` (`price`, `numbers`, `size`, `color`, `typeID`, `brandID`, `image`) "
 				+ "VALUES (?, ?, ?, ?, ?, ?)";
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -30,8 +32,9 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 			statement.setInt(2, entity.getNumbers());
 			statement.setString(3, entity.getSize());
 			statement.setString(4, entity.getColor());
-			statement.setInt(5, entity.getTypeId());
-			statement.setInt(6, entity.getBrandId());
+			statement.setInt(5, entity.getType().getIdentity());
+			statement.setInt(6, entity.getBrand().getIdentity());
+			statement.setString(7, entity.getImgPath());			
 			statement.executeUpdate();
 			resultSet = statement.getGeneratedKeys();
 			if (resultSet.next()) {
@@ -62,7 +65,7 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 	@Override
 	public Clothes read(Integer identity) throws PersistentException {
 		String sql = "SELECT `price`, `numbers`, "
-				+ "`size`, `color`, `typeID`, `brandID`, FROM `clothes` WHERE `identity`";
+				+ "`size`, `color`, `typeID`, `brandID`, `image` FROM `clothes` WHERE `identity`";
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		Clothes clothes = null;
@@ -76,8 +79,13 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 				clothes.setNumbers(resultSet.getInt("numbers"));
 				clothes.setSize(resultSet.getString("size"));
 				clothes.setColor(resultSet.getString("color"));
-				clothes.setTypeId(resultSet.getInt("typeID"));
-				clothes.setBrandId(resultSet.getInt("brandID"));
+				Type type = new Type();
+				type.setIdentity(resultSet.getInt("typeID"));
+				clothes.setType(type);
+				Brand brand = new Brand();
+				brand.setIdentity(resultSet.getInt("brandID"));
+				clothes.setBrand(brand);
+				clothes.setImgPath(resultSet.getString("image"));
 			}
 			return clothes;
 		} catch(SQLException e) {
@@ -96,7 +104,7 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 	@Override
 	public void update(Clothes entity) throws PersistentException  {
 		String sql = "UPDATE `clothes` SET `price` = ?, `numbers` = ?, "
-				+ "`size` = ?, `color` = ?, `typeID` = ?, `brandID` = ?, WHERE `identity` = ?";
+				+ "`size` = ?, `color` = ?, `typeID` = ?, `brandID` = ?, `image` = ? WHERE `identity` = ?";
 		PreparedStatement statement = null;
 		try {
 			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -104,9 +112,10 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 			statement.setInt(2, entity.getNumbers());
 			statement.setString(3, entity.getSize());
 			statement.setString(4, entity.getColor());
-			statement.setInt(5, entity.getTypeId());
-			statement.setInt(6, entity.getBrandId());
+			statement.setInt(5, entity.getType().getIdentity());
+			statement.setInt(6, entity.getBrand().getIdentity());
 			statement.setInt(7, entity.getIdentity());
+			statement.setString(8, entity.getImgPath());			
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			log.error("SQLException when performing a update operation");
@@ -143,10 +152,54 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 			} catch (SQLException e) {}
 		}
 	}
+	
+	@Override
+	public List<Clothes> readAllClothes() throws PersistentException {
+		String sql = "SELECT `identity`, `price`, `numbers`, `size`, `color`, `typeID`, `brandID`, `image`"
+				+ " FROM `clothes` ORDER BY `price`";
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			Clothes clothes = null;
+			List<Clothes> clotheList = new ArrayList<>();
+			statement = connection.prepareStatement(sql);
+			resultSet = statement.executeQuery();
+		while(resultSet.next()) {
+			clothes = new Clothes();
+			clothes.setIdentity(resultSet.getInt("identity"));
+			clothes.setPrice(resultSet.getBigDecimal("price"));
+			clothes.setNumbers(resultSet.getInt("numbers"));
+			clothes.setSize(resultSet.getString("size"));
+			clothes.setColor(resultSet.getString("color"));
+			Type type = new Type();
+			type.setIdentity(resultSet.getInt("typeID"));
+			clothes.setType(type);
+			Brand brand = new Brand();
+			brand.setIdentity(resultSet.getInt("brandID"));
+			clothes.setBrand(brand);
+			clothes.setImgPath(resultSet.getString("image"));
+			clotheList.add(clothes);
+		}
+		return clotheList;
+	} catch(SQLException e) {
+		throw new PersistentException(e);
+	} finally {
+		try {
+			if (resultSet != null) {
+				resultSet.close();
+			}
+		} catch (SQLException e) {}
+		try {
+			if (resultSet != null) {
+				statement.close();
+			}
+		} catch(SQLException e) {}
+	}
+	}
 
 	@Override
 	public List<Clothes> readClothesByBrand(Integer brand) throws PersistentException {
-		String sql = "SELECT `identity`, `price`, `numbers`, `size`, `color`, `typeID`"
+		String sql = "SELECT `identity`, `price`, `numbers`, `size`, `color`, `typeID`, `image`"
 				+ " FROM `clothes` WHERE `brandID` = ? ORDER BY `price`";
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -163,8 +216,13 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 			clothes.setNumbers(resultSet.getInt("numbers"));
 			clothes.setSize(resultSet.getString("size"));
 			clothes.setColor(resultSet.getString("color"));
-			clothes.setTypeId(resultSet.getInt("typeID"));
-			clothes.setBrandId(brand);
+			Type type = new Type();
+			type.setIdentity(resultSet.getInt("typeID"));
+			clothes.setType(type);
+			Brand brands = new Brand();
+			brands.setIdentity(brand);
+			clothes.setBrand(brands);
+			clothes.setImgPath(resultSet.getString("image"));
 			clotheList.add(clothes);
 		}
 		return clotheList;
@@ -186,7 +244,7 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 
 	@Override
 	public List<Clothes> readClothesBySize(String size) throws PersistentException {
-		String sql = "SELECT `identity`, `price`, `numbers`, `color`, `typeID`, `brandID` "
+		String sql = "SELECT `identity`, `price`, `numbers`, `color`, `typeID`, `brandID`, `image` "
 				+ "FROM `clothes` WHERE `size` = ? ORDER BY `price`";
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -203,8 +261,13 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 			clothes.setNumbers(resultSet.getInt("numbers"));
 			clothes.setSize(size);
 			clothes.setColor(resultSet.getString("color"));
-			clothes.setTypeId(resultSet.getInt("typeID"));
-			clothes.setBrandId(resultSet.getInt("brandID"));
+			Type type = new Type();
+			type.setIdentity(resultSet.getInt("typeID"));
+			clothes.setType(type);
+			Brand brand = new Brand();
+			brand.setIdentity(resultSet.getInt("brandID"));
+			clothes.setBrand(brand);
+			clothes.setImgPath(resultSet.getString("image"));
 			clotheList.add(clothes);
 		}
 		return clotheList;
@@ -226,7 +289,7 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 
 	@Override
 	public List<Clothes> readClothesByType(Integer typeId) throws PersistentException {
-		String sql = "SELECT `identity`, `price`, `numbers`, `size`, `color`, `typeID`, `brandID`,"
+		String sql = "SELECT `identity`, `price`, `numbers`, `size`, `color`, `typeID`, `brandID`, `image` "
 				+ " FROM `clothes` WHERE `typeID` = ? ORDER BY `price`";
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -242,8 +305,13 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 			clothes.setNumbers(resultSet.getInt("numbers"));
 			clothes.setSize(resultSet.getString("size"));
 			clothes.setColor(resultSet.getString("color"));
-			clothes.setTypeId(resultSet.getInt("typeID"));
-			clothes.setBrandId(resultSet.getInt("brandID"));
+			Type type = new Type();
+			type.setIdentity(typeId);
+			clothes.setType(type);
+			Brand brand = new Brand();
+			brand.setIdentity(resultSet.getInt("brandID"));
+			clothes.setBrand(brand);
+			clothes.setImgPath(resultSet.getString("image"));
 			clotheList.add(clothes);
 		}
 		return clotheList;
@@ -265,7 +333,7 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 
 	@Override
 	public List<Clothes> readClothesByColor(String color) throws PersistentException {
-		String sql = "SELECT `identity`, `price`, `numbers`, `size`, `color`, `typeID`, `brandID`,"
+		String sql = "SELECT `identity`, `price`, `numbers`, `size`, `color`, `typeID`, `brandID`, `image` "
 				+ " FROM `clothes` WHERE `color` = ? ORDER BY `price`";
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -282,8 +350,13 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 			clothes.setNumbers(resultSet.getInt("numbers"));
 			clothes.setSize(resultSet.getString("size"));
 			clothes.setColor(resultSet.getString("color"));
-			clothes.setTypeId(resultSet.getInt("typeID"));
-			clothes.setBrandId(resultSet.getInt("brandID"));
+			Type type = new Type();
+			type.setIdentity(resultSet.getInt("typeID"));
+			clothes.setType(type);
+			Brand brand = new Brand();
+			brand.setIdentity(resultSet.getInt("brandID"));
+			clothes.setBrand(brand);
+			clothes.setImgPath(resultSet.getString("image"));
 			clotheList.add(clothes);
 		}
 		return clotheList;

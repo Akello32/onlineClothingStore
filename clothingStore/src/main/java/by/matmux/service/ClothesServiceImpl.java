@@ -7,6 +7,11 @@ import by.matmux.dao.ClothesDao;
 import by.matmux.exception.PersistentException;
 
 public class ClothesServiceImpl extends ServiceImpl implements ClothesService {
+	@Override
+	public List<Clothes> findAllClothes() throws PersistentException {
+		ClothesDao dao = transaction.createDao(ClothesDao.class);
+		return dao.readAllClothes();
+	}
 
 	@Override
 	public List<Clothes> findClothesByBrand(Integer brand) throws PersistentException {

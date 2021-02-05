@@ -13,7 +13,7 @@ a {
 
 #logo {
 	width: 95px;
-	padding-top: 4;
+	padding-top: 5px;
 }
 
 .header {
@@ -56,5 +56,5 @@ a {
 	height: 95px;
 	width: 85%;
 	font-weight: bold;	
-	border-bottom: 3px solid #FFD700;
+	border-bottom: 3px solid #eb5e0b;
 }

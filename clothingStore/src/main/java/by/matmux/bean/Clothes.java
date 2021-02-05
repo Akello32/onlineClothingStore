@@ -9,10 +9,11 @@ import java.math.BigDecimal;
 public class Clothes extends Entity {
 	private BigDecimal price;
 	private int numbers;
-	private int brandId;
-	private int typeId;
+	private Brand brand;
+	private Type type;
 	private String size;
 	private String color;
+	private String imgPath;
 	
 	public String getColor() {
 		return color;
@@ -38,20 +39,20 @@ public class Clothes extends Entity {
 		this.numbers = numbers;
 	}
 
-	public int getBrandId() {
-		return brandId;
+	public Brand getBrand() {
+		return brand;
 	}
 
-	public void setBrandId(int brandId) {
-		this.brandId = brandId;
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 
-	public int getTypeId() {
-		return typeId;
+	public Type getType() {
+		return type;
 	}
 
-	public void setTypeId(int typeId) {
-		this.typeId = typeId;
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	public String getSize() {
@@ -60,5 +61,13 @@ public class Clothes extends Entity {
 
 	public void setSize(String size) {
 		this.size = size;
+	}
+
+	public String getImgPath() {
+		return imgPath;
+	}
+
+	public void setImgPath(String imgB64) {
+		this.imgPath = imgB64;
 	}	
 }

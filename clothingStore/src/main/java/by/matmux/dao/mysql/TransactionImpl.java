@@ -9,9 +9,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.matmux.dao.AbstractDAO;
+import by.matmux.dao.BrandDao;
 import by.matmux.dao.ClothesDao;
 import by.matmux.dao.OrderDao;
 import by.matmux.dao.Transaction;
+import by.matmux.dao.TypeDao;
 import by.matmux.dao.UserDao;
 import by.matmux.exception.PersistentException;
 
@@ -24,6 +26,8 @@ public class TransactionImpl implements Transaction {
 		classes.put(ClothesDao.class, ClothesDaoImpl.class);
 		classes.put(OrderDao.class, OrderDaoImpl.class);
 		classes.put(UserDao.class, UserDaoImpl.class);
+		classes.put(TypeDao.class, TypeDaoImpl.class);
+		classes.put(BrandDao.class, BrandDaoImpl.class);
 	}
 
 	private Connection connection;

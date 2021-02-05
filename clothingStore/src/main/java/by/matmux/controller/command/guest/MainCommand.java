@@ -9,6 +9,6 @@ import by.matmux.controller.command.Forward;
 public class MainCommand extends BaseCommand{
 	@Override
 	public Forward execute(HttpServletRequest request, HttpServletResponse response) {
-		return new Forward("/index");
+		return new Forward("/index.jsp");
 	}
 }

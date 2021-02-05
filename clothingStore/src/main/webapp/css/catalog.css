@@ -1,0 +1,153 @@
+@charset "UTF-8";
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.page {
+	min-height: 100vh;
+	position: relative;
+}
+
+.place {
+	display: flex;
+	align-items: flex-start;
+}
+
+#side {
+	width: 220px;
+	padding-top: 30px;
+	padding-left: 40px;
+	padding-top: 30px;
+}
+
+.catalog {
+	margin-top: 10px;
+	border: 3px solid #eb5e0b;
+	margin-bottom: 15px;
+}
+
+.title {
+	padding: 5px 20px 5px 20px;
+	background: black;
+	color: white;
+	font-size: 15px;
+	text-align: center;
+}
+
+.catalogParametrs {
+	font-weight: bold;
+	font-size: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	list-style: none;
+}
+
+.punct {
+/* 	padding-bottom: 5px; */
+}
+
+.parametrs {
+	margin-top: 10px;
+	margin-bottom: 30px;
+	padding-top: 5px;
+	padding-left: 10px;
+	border: 3px solid black;
+	padding-top: 15px;
+}
+
+.category {
+	padding-bottom: 20px;
+}
+
+.category.opened .items {
+	display: block;
+}
+
+.categoryName {
+	font-size: 22px;
+}
+
+.items {
+	font-size: 17px;
+	font-weight: bold;
+	padding-top: 4px;
+	padding-left: 13px;
+	list-style: none;
+	display: none;
+}
+
+.showButton {
+	font-weight: bold;
+	background-color: #eb5e0b;
+	border: none;
+	color: white;
+	padding: 8px 16px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 20px;
+	margin-bottom: 10px;
+	margin-left: 6px;
+	margin-right: 16px;
+}
+
+.photos {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 10px;
+	padding: 30px;
+	margin-top: 40px;
+}
+
+.productCard {
+	display: flex;
+	flex-direction: column;
+	align-items: center; border : 3px solid black;
+	padding: 5px;
+	border: 3px solid black;
+}
+
+.productContent {
+	margin-top: 10px;
+	text-align: center;
+}
+
+.productName {
+	font-size: 25px;
+	display: inline;
+}
+
+.productImg {
+	height: 230px;
+}
+
+.productPrice {
+	font-weight: bold;
+	margin-top: 5px;
+	color: #eb5e0b;
+}
+
+.productLink {
+	display: block;
+	text-align: center;
+	height: 100%;
+}
+
+.order {
+	margin-top: 3px;
+	font-weight: bold;
+	background-color: black;
+	border: none;
+	color: white;
+	padding: 6px 13px;
+	text-decoration: none;
+	font-size: 17px;
+	/* 	position: relative;
+	left: 50%;
+	transform: translate(-50%, 0); */
+}

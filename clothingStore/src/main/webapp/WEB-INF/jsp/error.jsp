@@ -18,7 +18,7 @@
 		</c:when>
 		<c:otherwise>Непредвиденная ошибка приложения</c:otherwise>
 	</c:choose>
-	<c:url value="/index.jsp" var="mainUrl"/>
+	<c:url value="/index.html" var="mainUrl"/>
 	<A href="${mainUrl}">На главную</A>
 </body>
 </html>

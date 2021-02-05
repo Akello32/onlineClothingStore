@@ -6,6 +6,8 @@ import by.matmux.bean.Clothes;
 import by.matmux.exception.PersistentException;
 
 public interface ClothesDao extends AbstractDAO<Clothes> {
+	List<Clothes> readAllClothes() throws PersistentException;	
+	
 	List<Clothes> readClothesByBrand(Integer brand) throws PersistentException;
 	
 	List<Clothes> readClothesBySize(String size) throws PersistentException;

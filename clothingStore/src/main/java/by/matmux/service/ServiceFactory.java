@@ -29,6 +29,12 @@ public class ServiceFactory {
 		case CLOTHES:
 			service = new ClothesServiceImpl();
 			break;
+		case TYPE:
+			service = new TypeServiceImpl();
+			break;
+		case BRAND:
+			service = new BrandServiceImpl();
+			break;
 		}
 		Transaction transaction = factory.createTransaction();
 		service.setTransaction(transaction);
