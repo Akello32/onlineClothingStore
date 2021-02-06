@@ -38,8 +38,6 @@
 }
 
 .catalogParametrs {
-	font-weight: bold;
-	font-size: 20px;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	padding-left: 15px;
@@ -47,7 +45,17 @@
 }
 
 .punct {
-/* 	padding-bottom: 5px; */
+	/* 	padding-bottom: 5px; */
+	
+}
+
+.categorySubmit {
+	font-weight: bold;
+	font-size: 20px;
+	padding: 0;
+	border: none;
+	color: inherit;
+	background-color: transparent;
 }
 
 .parametrs {
@@ -80,6 +88,13 @@
 	display: none;
 }
 
+.check {
+	display: none;
+}
+.check:checked ~ .checkLable{
+	color: #eb5e0b;
+}
+
 .showButton {
 	font-weight: bold;
 	background-color: #eb5e0b;
@@ -107,7 +122,8 @@
 .productCard {
 	display: flex;
 	flex-direction: column;
-	align-items: center; border : 3px solid black;
+	align-items: center;
+	border: 3px solid black;
 	padding: 5px;
 	border: 3px solid black;
 }

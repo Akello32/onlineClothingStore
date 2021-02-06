@@ -1,5 +1,6 @@
-package by.matmux.controller.command.guest;
+package by.matmux.controller.command.guest.catalog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,38 +17,49 @@ import by.matmux.service.ClothesService;
 import by.matmux.service.ServiceEnum;
 import by.matmux.service.TypeService;
 
-public class CatalogCommand extends BaseCommand {
+public class CategoryCommand extends BaseCommand {
 
 	@Override
 	public Forward execute(HttpServletRequest request, HttpServletResponse response) throws PersistentException {
-		Forward forward =  new Forward("/catalog.jsp", false);
+		Forward forward = new Forward("/catalog.jsp", false);
+		
+		List<Clothes> result = new ArrayList<>();
+		
 		ClothesService service = (ClothesService) factory.getService(ServiceEnum.CLOTHES);
 		List<Clothes> clothes = service.findAllClothes();
 		
 		BrandService brandService = (BrandService) factory.getService(ServiceEnum.BRAND);
 		List<Brand> brands = brandService.findAllBrands();
+
 		TypeService typeService = (TypeService) factory.getService(ServiceEnum.TYPE);
 		List<Type> types = typeService.findAllType();
 		
-		for (Clothes c : clothes) {
-			for (Brand b : brands) {
-				if (c.getBrand().getIdentity() == b.getIdentity()) {
-					c.getBrand().setName(b.getName());
-				}
-			}
-			
-			for(Type t : types) {
-				if (c.getType().getIdentity() == t.getIdentity()) {
-					c.getType().setName(t.getName());
-				}
-			}
+		String category = request.getParameter("category");
+		Type type = null;
+		
+		request.setAttribute("brands", brands);
+		request.setAttribute("types", types);
+		
+		for (Type t : types) {
+			if (t.getName().equals(category)) {
+				type = t;
+				break;
+			} 
 		}
 		
-		request.setAttribute("types", types);
-		request.setAttribute("brands", brands);
-		request.setAttribute("clothes", clothes);		
+		if (type == null) {
+			return forward;
+		}
 		
-		return  forward;
+		for (Clothes c : clothes) {
+			if (c.getType().getIdentity() == type.getIdentity()) {
+				result.add(c);
+			}
+		}
+ 		
+		request.setAttribute("clothes", result);
+		
+		return forward;
 	}
 
 }

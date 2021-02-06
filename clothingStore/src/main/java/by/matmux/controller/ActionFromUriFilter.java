@@ -18,13 +18,15 @@ import org.apache.logging.log4j.Logger;
 
 import by.matmux.controller.command.BaseCommand;
 import by.matmux.controller.command.Command;
-import by.matmux.controller.command.guest.CatalogCommand;
 import by.matmux.controller.command.guest.MainCommand;
+import by.matmux.controller.command.guest.catalog.CatalogCommand;
+import by.matmux.controller.command.guest.catalog.CategoryCommand;
+import by.matmux.controller.command.guest.catalog.ShowByParam;
 
 /**
  * Servlet Filter implementation class ActionFromURLFilter
  */
-@WebFilter(urlPatterns = { "*.html" })
+@WebFilter(urlPatterns = { "*.html"})
 public class ActionFromUriFilter implements Filter {
 	private static final Logger logger = LogManager.getLogger(ActionFromUriFilter.class);
 	private static Map<String, BaseCommand> actions = new ConcurrentHashMap<>();
@@ -36,6 +38,8 @@ public class ActionFromUriFilter implements Filter {
 		actions.put("/", new MainCommand());
 		actions.put("/index", new MainCommand());
 		actions.put("/catalog", new CatalogCommand());
+		actions.put("/category", new CategoryCommand());
+		actions.put("/showByParam", new ShowByParam());
 	}
 
 	/**
