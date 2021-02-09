@@ -27,12 +27,12 @@ public class ShowByParam extends BaseCommand {
 		List<Clothes> result = new ArrayList<>();
 		
 		ClothesService service = (ClothesService) factory.getService(ServiceEnum.CLOTHES);
-		List<Clothes> clothes = service.findAllClothes();
 
 		String size = request.getParameter("size");
 		String color = request.getParameter("color");
 		String brandParam = request.getParameter("brand");
-
+		String gender = request.getParameter("gender");
+		
 		TypeService typeService = (TypeService) factory.getService(ServiceEnum.TYPE);
 		List<Type> types = typeService.findAllType();
 		
@@ -40,11 +40,24 @@ public class ShowByParam extends BaseCommand {
 		List<Brand> brands = brandService.findAllBrands();
 		
 		if (size != null) {
-			result = showBySize(size, clothes);
+			result = service.findClothesBySize(size);
 		} 
 		
 		if (color != null) {
-			List<Clothes> temp = showByColor(color, clothes);
+			List<Clothes> temp = service.findClothesByColor(color);
+			if (result.isEmpty()) {
+				result.addAll(temp);
+			} else if (!result.containsAll(temp)) {
+				for (Clothes c : temp) {
+					if (!result.contains(c)) {
+						result.remove(c);
+					}
+				}
+			}
+		}
+		
+		if (gender != null) {
+			List<Clothes> temp = service.findClothesByGender(gender);
 			if (result.isEmpty()) {
 				result.addAll(temp);
 			} else if (!result.containsAll(temp)) {
@@ -57,14 +70,7 @@ public class ShowByParam extends BaseCommand {
 		}
 		
 		if (brandParam != null) {
-			Brand brand = null;
-			for (Brand b : brands) {
-				if (b.getName().equals(brandParam)) {
-					brand = b;
-				}
-			}
-			
-			List<Clothes> temp = showByBrand(brand, clothes);
+			List<Clothes> temp = service.findClothesByBrand(Integer.parseInt(brandParam));
 			if (result.isEmpty()) {
 				result.addAll(temp);
 			} else if (!result.containsAll(temp)) {
@@ -76,45 +82,13 @@ public class ShowByParam extends BaseCommand {
 			}
 		}
 		
+		CatalogHelpersMethods.addBrand(result, brands);
+		CatalogHelpersMethods.deleteDuplicates(result);
+		
 		request.setAttribute("brands", brands);
 		request.setAttribute("types", types);
 		request.setAttribute("clothes", result);
 
 		return forward;
-	}
-
-	private List<Clothes> showBySize(String size, List<Clothes> clothes) {
-		List<Clothes> result = new ArrayList<>();
-		for (Clothes c : clothes) {
-			if (c.getSize().equals(size)) {
-				result.add(c);
-			}
-		}
-		return result;
-	}
-	
-	private List<Clothes> showByColor(String color, List<Clothes> clothes) {
-		List<Clothes> result = new ArrayList<>();
-		for (Clothes c : clothes) {
-			if (c.getColor().equals(color)) {
-				result.add(c);
-			}
-		}
-		return result;
-	}
-	
-	private  List<Clothes> showByBrand(Brand brand, List<Clothes> clothes) {
-		List<Clothes> result = new ArrayList<>();
-		
-		if (brand == null) {
-			return result;
-		}
-		
-		for (Clothes c : clothes) {
-			if (c.getBrand().getIdentity() == brand.getIdentity()) {
-				result.add(c);
-			}
-		}
-		return result;
 	}
 }

@@ -18,9 +18,11 @@ import org.apache.logging.log4j.Logger;
 
 import by.matmux.controller.command.BaseCommand;
 import by.matmux.controller.command.Command;
+import by.matmux.controller.command.LoginCommand;
 import by.matmux.controller.command.guest.MainCommand;
 import by.matmux.controller.command.guest.catalog.CatalogCommand;
 import by.matmux.controller.command.guest.catalog.CategoryCommand;
+import by.matmux.controller.command.guest.catalog.ProductCommand;
 import by.matmux.controller.command.guest.catalog.ShowByParam;
 
 /**
@@ -40,6 +42,8 @@ public class ActionFromUriFilter implements Filter {
 		actions.put("/catalog", new CatalogCommand());
 		actions.put("/category", new CategoryCommand());
 		actions.put("/showByParam", new ShowByParam());
+		actions.put("/product", new ProductCommand());
+		actions.put("/login", new LoginCommand());
 	}
 
 	/**

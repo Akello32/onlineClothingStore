@@ -24,9 +24,9 @@
 						<ul class="catalogParametrs">
 							<c:url value="/category.html" var="categoryUrl" />
 							<li class="punct">
-								<form id="show" method="post" action="${categoryUrl}">
+								<form method="post" action="${categoryUrl}">
 									<input class="categorySubmit" type="submit" name="category"
-										value="${type.name}" form="show" />
+										value="${type.name}" />
 								</form>
 							</li>
 						</ul>
@@ -46,9 +46,11 @@
 							<li><input class="check" id="L" type="radio" name="size"
 								value="L" form="showParam" /><label class="checkLable" for="L">L</label></li>
 							<li><input class="check" id="XL" type="radio" name="size"
-								value="XL" form="showParam" /><label class="checkLable" for="XL">XL</label></li>
+								value="XL" form="showParam" /><label class="checkLable"
+								for="XL">XL</label></li>
 							<li><input class="check" id="XXL" type="radio" name="size"
-								value="XXL" form="showParam" /><label class="checkLable" for="XXL">XXL</label></li>
+								value="XXL" form="showParam" /><label class="checkLable"
+								for="XXL">XXL</label></li>
 						</ul>
 					</div>
 					<div class="category">
@@ -56,8 +58,8 @@
 						<c:forEach items="${brands}" var="brand">
 							<ul class="items">
 								<li><input class="check" id="${brand.name}" type="radio"
-									name="brand" value="${brand.name}" form="showParam" /><label class="checkLable"
-									for="${brand.name}">${brand.name}</label></li>
+									name="brand" value="${brand.identity}" form="showParam" /><label
+									class="checkLable" for="${brand.name}">${brand.name}</label></li>
 							</ul>
 						</c:forEach>
 					</div>
@@ -102,6 +104,18 @@
 								for="Pink">РОЗОВЫЙ</label></li>
 						</ul>
 					</div>
+					<div class="category">
+						<h2 class="categoryName">ПОЛ</h2>
+						<ul class="items">
+							<li><input class="check" id="men" type="radio" name="gender"
+								value="men" form="showParam" /><label class="checkLable"
+								for="men">МУЖСКОЙ</label></li>
+							<li><input class="check" id="woman" type="radio"
+								name="gender" value="women" form="showParam" /><label
+								class="checkLable" for="woman">ЖЕНСКИЙ</label></li>
+						</ul>
+
+					</div>
 					<c:url value="/showByParam.html" var="paramUrl" />
 					<form id="showParam" action="${paramUrl}" method="post">
 						<button class="showButton">ПОКАЗАТЬ</button>
@@ -112,16 +126,21 @@
 			<div class="photos">
 				<c:forEach items="${clothes}" var="product">
 					<div class="productCard">
-						<img class="productImg"
-							src="${pageContext.request.contextPath}/img/BDimg/${product.imgPath}"
-							alt="product" />
-						<div class="productContent">
-							<div class="productName">${product.brand.name}</div>
-							<div class="productName">${product.type.name}</div>
-							<div class="productPrice">${product.price}BYN</div>
-						</div>
-						<button class="order">ЗАКАЗАТЬ</button>
-						<a class="productLink"></a>
+						<c:url value="/product.html" var="productLink" />
+						<form action="${productLink}" method="post">
+							<button class="productButton" name="product"
+								value="${product.identity}">
+								<img class="productImg"
+									src="${pageContext.request.contextPath}/img/BDimg/${product.imgPath}"
+									alt="product" />
+								<div class="productContent">
+									<div class="productName">${product.brand.name}</div>
+									<div class="productName">${product.name}</div>
+									<div class="productPrice">${product.price}BYN</div>
+								</div>
+							</button>
+						</form>
+						<button class="orderButton">ЗАКАЗАТЬ</button>
 					</div>
 				</c:forEach>
 			</div>

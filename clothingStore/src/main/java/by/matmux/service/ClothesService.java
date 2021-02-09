@@ -7,6 +7,8 @@ import by.matmux.exception.PersistentException;
 
 public interface ClothesService extends Service {
 	List<Clothes> findAllClothes() throws PersistentException;
+
+	List<Clothes> findClothesByNameAndColor(String name, String color) throws PersistentException;
 	
 	List<Clothes> findClothesByBrand(Integer brand) throws PersistentException;
 	
@@ -15,6 +17,8 @@ public interface ClothesService extends Service {
 	List<Clothes> findClothesByType(Integer typeId) throws PersistentException;
 	
 	List<Clothes> findClothesByColor(String color) throws PersistentException;
+	
+	List<Clothes> findClothesByGender(String gender) throws PersistentException;
 	
 	Clothes findByIdentity(Integer identity) throws PersistentException;
 	

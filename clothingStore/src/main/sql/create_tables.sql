@@ -36,12 +36,15 @@ CREATE TABLE `discounts` (
 CREATE TABLE `clothes` (
 	`identity` INTEGER NOT NULL AUTO_INCREMENT,
 	`price` DECIMAL NOT NULL,
-	`numbers` INTEGER NOT NULL, 
+	`numbers` INTEGER NOT NULL,
 	`image` TEXT NOT NULL, 
 	`size` VARCHAR(10) NOT NULL,
 	`color` VARCHAR(70) NOT NULL,
 	`typeID` INTEGER NOT NULL,
-	`brandID` INTEGER NOT NULL,	
+	`brandID` INTEGER NOT NULL,
+	`gender` VARCHAR(10) NOT NULL
+	`name` VARCHAR(50) NOT NULL, 
+	`description` VARCHAR(400) NOT NULL,
 	PRIMARY KEY (`identity`),
 	FOREIGN KEY (`typeID`)
 	REFERENCES `clothes_type` (`identity`)
@@ -53,6 +56,8 @@ CREATE TABLE `clothes` (
 	ON DELETE RESTRICT
 ) ENGINE=INNODB DEFAULT CHARACTER SET utf8;
 
+ALTER TABLE clothes ADD COLUMN gender VARCHAR(10) NOT NULL AFTER brandID;
+
 CREATE TABLE `orders`(
 	`identity` INTEGER NOT NULL AUTO_INCREMENT,
 	`status` BOOLEAN NOT NULL	,
@@ -60,7 +65,7 @@ CREATE TABLE `orders`(
 	`price` DECIMAL NOT NULL,
 	PRIMARY KEY (`identity`),
 	FOREIGN KEY (`user_id`)
-	REFERENCES `users` (`ident	ёity`)
+	REFERENCES `users` (`identity`)
 	ON UPDATE CASCADE
 	ON DELETE NO ACTION
 ) ENGINE=INNODB DEFAULT CHARACTER SET utf8;
@@ -94,3 +99,5 @@ CREATE TABLE `used_discounts` (
 	ON UPDATE CASCADE
 	ON DELETE RESTRICT
 ) ENGINE=INNODB DEFAULT CHARACTER SET utf8;
+
+DROP TABLE clothes;

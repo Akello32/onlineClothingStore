@@ -22,43 +22,39 @@ public class CategoryCommand extends BaseCommand {
 	@Override
 	public Forward execute(HttpServletRequest request, HttpServletResponse response) throws PersistentException {
 		Forward forward = new Forward("/catalog.jsp", false);
-		
+
 		List<Clothes> result = new ArrayList<>();
-		
+
 		ClothesService service = (ClothesService) factory.getService(ServiceEnum.CLOTHES);
-		List<Clothes> clothes = service.findAllClothes();
-		
+
 		BrandService brandService = (BrandService) factory.getService(ServiceEnum.BRAND);
 		List<Brand> brands = brandService.findAllBrands();
 
 		TypeService typeService = (TypeService) factory.getService(ServiceEnum.TYPE);
 		List<Type> types = typeService.findAllType();
-		
+
 		String category = request.getParameter("category");
 		Type type = null;
-		
+
 		request.setAttribute("brands", brands);
 		request.setAttribute("types", types);
-		
+
 		for (Type t : types) {
 			if (t.getName().equals(category)) {
 				type = t;
 				break;
-			} 
+			}
 		}
-		
+
 		if (type == null) {
 			return forward;
 		}
+
+		List<Clothes> clothes = service.findClothesByType(type.getIdentity());
+		CatalogHelpersMethods.deleteDuplicates(clothes);
 		
-		for (Clothes c : clothes) {
-			if (c.getType().getIdentity() == type.getIdentity()) {
-				result.add(c);
-			}
-		}
- 		
-		request.setAttribute("clothes", result);
-		
+		request.setAttribute("clothes", clothes);
+
 		return forward;
 	}
 

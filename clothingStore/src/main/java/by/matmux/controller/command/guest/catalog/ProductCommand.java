@@ -1,6 +1,6 @@
 package by.matmux.controller.command.guest.catalog;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,28 +17,28 @@ import by.matmux.service.ClothesService;
 import by.matmux.service.ServiceEnum;
 import by.matmux.service.TypeService;
 
-public class CatalogCommand extends BaseCommand {
+public class ProductCommand extends BaseCommand {
 
 	@Override
 	public Forward execute(HttpServletRequest request, HttpServletResponse response) throws PersistentException {
-		Forward forward = new Forward("/catalog.jsp", false);
 		ClothesService service = (ClothesService) factory.getService(ServiceEnum.CLOTHES);
-		List<Clothes> clothes = service.findAllClothes();
-		List<Clothes> result = new ArrayList<Clothes>();
-		
+
 		BrandService brandService = (BrandService) factory.getService(ServiceEnum.BRAND);
 		List<Brand> brands = brandService.findAllBrands();
+
 		TypeService typeService = (TypeService) factory.getService(ServiceEnum.TYPE);
 		List<Type> types = typeService.findAllType();
 
-		CatalogHelpersMethods.deleteDuplicates(clothes);
-		CatalogHelpersMethods.addTypeAndBrand(clothes, brands, types);
+		String clothesId = request.getParameter("product");
+		Clothes product = service.findByIdentity(Integer.parseInt(clothesId));
+	
+		CatalogHelpersMethods.addTypeAndBrand(Arrays.asList(product), brands, types);
 		
-		request.setAttribute("types", types);
-		request.setAttribute("brands", brands);
-		request.setAttribute("clothes", clothes);
+		List<Clothes> clothesSameSize = service.findClothesByNameAndColor(product.getName(), product.getColor());
+		
+		request.setAttribute("clothesSameSize", clothesSameSize);
+		request.setAttribute("product", product);
 
-		return forward;
+		return new Forward("/product.jsp", false);
 	}
-
 }

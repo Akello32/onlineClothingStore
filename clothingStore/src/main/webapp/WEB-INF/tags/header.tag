@@ -10,19 +10,21 @@
 </head>
 <div class="header">
 	<div class="header-fixed">
-		<span>
-			<c:url value="/img/logo.png" var="logo"/>
-			<img id="logo" src="${logo}">
-		</span>
+		<c:url value="/img/logo.png" var="logo" />
+		<img id="logo" src="${logo}" />
+		<div class="registration">
+			<c:url value="https://translate.yandex.by" var="loginUrl" />
+			<a class="logIn" href="${loginUrl}">Log in</a><a class="signIn">Sign in</a>
+		</div>
 	</div>
 	<div class="header-notFixed">
 		<nav>
 			<p>
 				<c:url value="/index.html" var="aboutUrl" />
-				<a href='${aboutUrl}'>О НАС</a> 
-				<c:url value="/catalog.html" var="catalogUrl" />				
-				<a href="${catalogUrl}">КАТАЛОГ</a>
-				 <a>КОРЗИНА</a> <a>ПРОФИЛЬ</a>
+				<a class="section" href='${aboutUrl}'>О НАС</a>
+				<c:url value="/catalog.html" var="catalogUrl" />
+				<a class="section" href="${catalogUrl}">КАТАЛОГ</a> <a
+					class="section">КОРЗИНА</a> <a class="section">ПРОФИЛЬ</a>
 			</p>
 		</nav>
 	</div>

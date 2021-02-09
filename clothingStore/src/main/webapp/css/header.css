@@ -1,47 +1,71 @@
 @charset "UTF-8";
+
 body {
-  background: #efefef;
-  font-family: arial;
-  font-size: 18px;
+	background: #efefef;
+	font-family: arial;
+	font-size: 18px;
 }
 
-a {
+.section {
 	color: white;
-	margin-right: 50px;	
+	margin-right: 50px;
 	text-decoration: none;
 }
 
 #logo {
 	width: 95px;
+	padding-left: 10px;
 	padding-top: 5px;
 }
 
 .header {
-  background: black;
-  height: 165px;
-  color: white;
+	background: black;
+	height: 165px;
+	color: white;
 }
 
 .header-fixed {
-  background: white;
-  font-size: 14px;
-  position: fixed;
-  line-height: 40px;
-  height: 65px;
-  text-indent: 20px;
-  width: 100%;
-  color: black;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: white;
+	font-size: 14px;
+	position: fixed;
+	line-height: 40px;
+	height: 65px;
+	text-indent: 20px;
+	width: 100%;
+	color: black;
+	background: white;
+}
+
+.registration {
+	text-decoration: none;
+	text-align: right;
+}
+
+.logIn {
+	color: black;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+.signIn {
+	font-size: 20px;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-right: 10px;	
 }
 
 .header-notFixed {
-  line-height: 220px;
-  text-align: center;
-  font-size: 28px;
+	line-height: 220px;
+	text-align: center;
+	font-size: 28px;
 }
 
 .header-notFixed p {
-  z-index: 9999;
-  position: relative;
+	z-index: 9999;
+	position: relative;
 }
 
 .header-popUp {
@@ -50,11 +74,11 @@ a {
 	color: #000000;
 	font-size: 35px;
 	display: block;
-    margin-left: auto;
-    margin-right: auto;
+	margin-left: auto;
+	margin-right: auto;
 	background: #C4C4C4;
 	height: 95px;
 	width: 85%;
-	font-weight: bold;	
+	font-weight: bold;
 	border-bottom: 3px solid #eb5e0b;
 }
