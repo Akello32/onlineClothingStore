@@ -140,7 +140,11 @@
 								</div>
 							</button>
 						</form>
-						<button class="orderButton">ЗАКАЗАТЬ</button>
+						<c:url value="/user/order.html" var="order" />
+						<input class="check" type="checkbox" name="product"
+							value="${product.identity}" form="cartButton"
+							id="${product.identity}" /> <label class="orderButton"
+							for="${product.identity}">ЗАКАЗАТЬ</label>
 					</div>
 				</c:forEach>
 			</div>

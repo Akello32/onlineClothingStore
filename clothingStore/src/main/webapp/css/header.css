@@ -6,10 +6,31 @@ body {
 	font-size: 18px;
 }
 
+.navBar {
+	display: flex;
+	justify-content: center;
+	align-items: centre;
+}
+
+#cartButton {
+/* 	display: none; */
+}
+
 .section {
 	color: white;
 	margin-right: 50px;
 	text-decoration: none;
+}
+
+.sectionButton {
+	color: white;
+	margin-right: 50px;
+	text-decoration: none;
+	display: inline-block;
+	outline: none; /* Для синий ободки */
+	border: 0;
+	font-size: 28px;
+	background: transparent;
 }
 
 #logo {
@@ -25,6 +46,7 @@ body {
 }
 
 .header-fixed {
+	z-index: 9999;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -51,10 +73,12 @@ body {
 }
 
 .signIn {
+	color: black;
+	text-decoration: none;
 	font-size: 20px;
 	font-weight: bold;
 	padding-left: 10px;
-	padding-right: 10px;	
+	padding-right: 10px;
 }
 
 .header-notFixed {
@@ -64,7 +88,7 @@ body {
 }
 
 .header-notFixed p {
-	z-index: 9999;
+	/*  	z-index: 9999;*/
 	position: relative;
 }
 

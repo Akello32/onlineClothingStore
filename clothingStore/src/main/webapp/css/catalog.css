@@ -132,6 +132,10 @@
 	padding: 5px;
 }
 
+.productCard:hover {
+	border: 3px solid #eb5e0b;
+}
+
 .productContent {
 	margin-top: 10px;
 	text-align: center;
@@ -161,4 +165,22 @@
 	padding: 6px 13px;
 	text-decoration: none;
 	font-size: 17px;
+	margin-top: auto;
 }
+	
+.orderButton.clicked {
+	background-color: #eb5e0b;
+}
+
+/* .orderButton.clicked:before {
+	content: 'В КОРЗИНЕ';
+	margin-top: 3px;
+	font-weight: bold;
+	background-color: black;
+	border: none;
+	color: white;
+	padding: 6px 13px;
+	text-decoration: none;
+	font-size: 17px;
+	display: none;
+} */

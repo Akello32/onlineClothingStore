@@ -13,19 +13,31 @@
 		<c:url value="/img/logo.png" var="logo" />
 		<img id="logo" src="${logo}" />
 		<div class="registration">
-			<c:url value="https://translate.yandex.by" var="loginUrl" />
-			<a class="logIn" href="${loginUrl}">Log in</a><a class="signIn">Sign in</a>
+			<c:url value="/login.html" var="loginUrl" />
+			<a class="logIn" href="${loginUrl}">Log in</a>
+			<c:url value="/signup.html" var="signUrl" />
+			<a class="signIn" href="${signUrl}">Sign in</a>
 		</div>
 	</div>
 	<div class="header-notFixed">
-		<nav>
-			<p>
-				<c:url value="/index.html" var="aboutUrl" />
-				<a class="section" href='${aboutUrl}'>О НАС</a>
-				<c:url value="/catalog.html" var="catalogUrl" />
-				<a class="section" href="${catalogUrl}">КАТАЛОГ</a> <a
-					class="section">КОРЗИНА</a> <a class="section">ПРОФИЛЬ</a>
-			</p>
+		<nav class="navBar">
+			<c:url value="/index.html" var="aboutUrl" />
+			<a class="section" href='${aboutUrl}'>О НАС</a>
+			<c:url value="/catalog.html" var="catalogUrl" />
+			<a class="section" href="${catalogUrl}">КАТАЛОГ</a>
+			<c:forEach items="${menu}" var="menu">
+				<c:url value="${menu.url}" var="itemUrl" />
+				<c:choose>
+					<c:when test="${menu.name eq 'КОРЗИНА'}">
+						<form action="${itemUrl}" method="post" id="cartButton">
+							<button class="sectionButton">${menu.name}</button>
+						</form>
+					</c:when>
+					<c:otherwise>
+						<a class="section" href="${itemUrl}">${menu.name}</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
 		</nav>
 	</div>
 </div>

@@ -41,7 +41,7 @@ public class UserServiceImpl extends ServiceImpl implements UserService {
 			}
 			dao.update(user);
 		} else {
-			user.setPassword(sha256(new String()));
+			user.setPassword(sha256(new String(user.getPassword())));
 			user.setIdentity(dao.create(user));
 		}
 	}

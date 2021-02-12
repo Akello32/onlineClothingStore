@@ -4,14 +4,19 @@
 	`password`,
 	`role`
 ) VALUES (
+	1,
+	"admin",
+	"5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5", 
+	0
+), (
 	2,
-	"user1",
-	"EE11CBB19052E40B07AAC0CA060C23EE", 
+	"manager",
+	"5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5", 
 	1
 ), (
 	3,
-	"user2",
-	"EE11CBB19052E40B07AAC0CA060C23EE",
+	"user",
+	"5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
 	2
 );
 

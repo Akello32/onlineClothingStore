@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.page {
+	min-height: 100vh;
+	position: relative;
+}
+
+.place {
+	margin-top: 50px; display : flex;
+	align-items: flex-start;
+	display: flex;
+}
+
+.cart {
+	margin-left: 10px;
+}
+
+.titles {
+	display: flex;
+	padding-bottom: 15px;
+	border-bottom: 2px solid #374045;
+}
+
+.title {
+	font-size: 23px;
+	margin-right: 70px;
+}
+
+.totalAmount {
+	background: #cdd0cb;
+	height: 200px;
+	margin-left: auto;
+}
+
+.blockAmount {
+	padding: 10px;
+}
+
+.amount {
+	font-size: 25px;
+	padding-bottom: 10px;
+}
+
+.price {
+	font-size: 27px;
+	color: black;
+	padding-bottom: 30px;
+}

@@ -15,7 +15,7 @@ CREATE TABLE `brands` (
 CREATE TABLE `users` (
 	`identity` INTEGER NOT NULL AUTO_INCREMENT,
 	`login` VARCHAR(35) NOT NULL UNIQUE,
-	`password` VARCHAR(50) NOT NULL,
+	`password` VARCHAR(100) NOT NULL,
 	/*
 	 * 0 - admin (Role.ADMINISTRATOR)
 	 * 1 - manager (Role.menager)
@@ -100,4 +100,4 @@ CREATE TABLE `used_discounts` (
 	ON DELETE RESTRICT
 ) ENGINE=INNODB DEFAULT CHARACTER SET utf8;
 
-DROP TABLE clothes;
+DROP TABLE users;

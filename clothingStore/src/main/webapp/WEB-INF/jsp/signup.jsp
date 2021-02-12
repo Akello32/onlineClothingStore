@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Log In</title>
+<title>Insert title here</title>
 <c:url value="/css/login.css" var="cssUrl" />
 <link rel="stylesheet" href="${cssUrl}">
 </head>
@@ -15,20 +15,19 @@
 	<div class="wrapper fadeInDown">
 		<div id="formContent">
 			<!-- Tabs Titles -->
-			<h2 class="active">
-				Sign In
-			</h2>
-			<c:url value="/signup.html" var="signIn" />
+			<c:url value="/login.html" var="signIn" />
 			<h2 class="inactive underlineHover">
-				<a class="link" href="${signIn}">Sign Up</a>
+				<a class="link" href="${signIn}">Sign In</a>
 			</h2>
-
-			<c:url value="/login.html" var="loginUrl" />
-			<form method="post" action="${loginUrl}">
+			<h2 class="active">
+				Sign Up
+			</h2>
+			<c:url value="/singUp.html" var="loginUrl" />
+			<form method="post" action="">
 				<input type="text" id="login" class="fadeIn second" name="login"
 					placeholder="login"> <input type="text" id="password"
 					class="fadeIn third" name="password" placeholder="password">
-				<input type="submit" class="fadeIn fourth" value="Log in">
+				<input type="submit" class="fadeIn fourth" value="Sign Up">
 			</form>
 
 			<!-- Remind Passowrd -->
