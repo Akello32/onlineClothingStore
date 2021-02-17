@@ -39,6 +39,6 @@ public class ProductCommand extends BaseCommand {
 		request.setAttribute("clothesSameSize", clothesSameSize);
 		request.setAttribute("product", product);
 
-		return new Forward("/product.jsp", false);
+		return null;
 	}
 }

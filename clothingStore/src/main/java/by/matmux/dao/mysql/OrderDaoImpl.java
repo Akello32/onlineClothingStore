@@ -19,7 +19,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 	
 	@Override
 	public Integer create(Order order) {
-		String sql = "INSERT INTO `users`(`status`, `user_id`, `price`) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO `orders`(`status`, `user_id`, `price`) VALUES (?, ?, ?)";
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		try {

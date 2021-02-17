@@ -17,7 +17,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.matmux.controller.command.BaseCommand;
-import by.matmux.controller.command.Command;
 import by.matmux.controller.command.LoginCommand;
 import by.matmux.controller.command.SignUpCommand;
 import by.matmux.controller.command.guest.MainCommand;
@@ -26,12 +25,14 @@ import by.matmux.controller.command.guest.catalog.CategoryCommand;
 import by.matmux.controller.command.guest.catalog.ProductCommand;
 import by.matmux.controller.command.guest.catalog.ShowByParam;
 import by.matmux.controller.command.user.BuyerProfileCommand;
+import by.matmux.controller.command.user.DeleteProductFromCart;
 import by.matmux.controller.command.user.OrderCommand;
+import by.matmux.controller.command.user.OrderFormCommand;
 
 /**
  * Servlet Filter implementation class ActionFromURLFilter
  */
-@WebFilter(urlPatterns = { "*.html"})
+@WebFilter(urlPatterns = { "*.html" })
 public class ActionFromUriFilter implements Filter {
 	private static final Logger logger = LogManager.getLogger(ActionFromUriFilter.class);
 	private static Map<String, BaseCommand> actions = new ConcurrentHashMap<>();
@@ -45,11 +46,14 @@ public class ActionFromUriFilter implements Filter {
 		actions.put("/catalog", new CatalogCommand());
 		actions.put("/category", new CategoryCommand());
 		actions.put("/showByParam", new ShowByParam());
+		actions.put("/product/form", new ProductCommand());
 		actions.put("/product", new ProductCommand());
-		
+
 		actions.put("/login", new LoginCommand());
 		actions.put("/signup", new SignUpCommand());
-		
+
+		actions.put("/buyer/deleteProduct", new DeleteProductFromCart());
+		actions.put("/buyer/form", new OrderFormCommand());
 		actions.put("/buyer/order", new OrderCommand());
 		actions.put("/buyer/profile", new BuyerProfileCommand());
 	}
@@ -91,6 +95,7 @@ public class ActionFromUriFilter implements Filter {
 		}
 	}
 
-	public void destroy() {}
+	public void destroy() {
+	}
 
 }

@@ -25,7 +25,7 @@ public class LoginCommand extends BaseCommand {
 	private static Map<Role, List<MenuItem>> menu = new ConcurrentHashMap<>();
 
 	static {
-		menu.put(Role.BUYER, new ArrayList<MenuItem>(Arrays.asList(new MenuItem("/buyer/order.html", "КОРЗИНА"),
+		menu.put(Role.BUYER, new ArrayList<MenuItem>(Arrays.asList(new MenuItem("/buyer/form.html", "КОРЗИНА"),
 				new MenuItem("/buyer/profile.html", "ПРОФИЛЬ"))));
 	}
 
@@ -45,7 +45,7 @@ public class LoginCommand extends BaseCommand {
 					session.setAttribute("menu", menu.get(user.getRole()));
 					logger.info(String.format("user \"%s\" is logged in from %s (%s:%s)", login,
 							request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort()));
-					return new Forward("/index.jsp");
+					return new Forward("/index.html", true);
 				} else {
 					request.setAttribute("message", "Имя пользователя или пароль не опознанны");
 					logger.info(String.format("user \"%s\" unsuccessfully tried to log in from %s (%s:%s)", login,

@@ -1,6 +1,5 @@
 package by.matmux.controller.command.guest.catalog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +20,7 @@ public class CategoryCommand extends BaseCommand {
 
 	@Override
 	public Forward execute(HttpServletRequest request, HttpServletResponse response) throws PersistentException {
-		Forward forward = new Forward("/catalog.jsp", false);
-
-		List<Clothes> result = new ArrayList<>();
+		Forward forward = new Forward("/catalog.html", true);
 
 		ClothesService service = (ClothesService) factory.getService(ServiceEnum.CLOTHES);
 
@@ -53,7 +50,7 @@ public class CategoryCommand extends BaseCommand {
 		List<Clothes> clothes = service.findClothesByType(type.getIdentity());
 		CatalogHelpersMethods.deleteDuplicates(clothes);
 		
-		request.setAttribute("clothes", clothes);
+		forward.getAttributes().put("clothes", clothes);
 
 		return forward;
 	}

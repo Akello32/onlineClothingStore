@@ -16,30 +16,52 @@
 		<u:header name="КОРЗИНА" />
 		<div class="place">
 			<div class="cart">
-				<div class="titles">
-					<h2 class="title">Товар</h2>
-					<h2 class="title">Размер</h2>
-					<h2 class="title">Цена</h2>
-					<h2 class="title">Кол-во</h2>
-					<h2 class="title">Сумма</h2>
-				</div>
-				<div class="productInf">
+				<table>
+					<tr class="titleName">
+						<th>Товар</th>
+						<th>Размер</th>
+						<th>Цена</th>
+						<th>Кол-во</th>
+						<th>Сумма</th>
+						<th></th>
+					</tr>
 					<c:forEach items="${products}" var="product">
-						<img alt="image" class="productImg"
-							src="${pageContext.request.contextPath}/img/BDimg/${product.imgPath}">
+						<tr class="productCard">
+							<td class="first"><img alt="image" class="productImg"
+								src="${pageContext.request.contextPath}/img/BDimg/${product.imgPath}">
+								<div class="contentName">
+									<p>${product.name}</p>
+									<p class="brandF">${product.brand.name}</p>
+								</div></td>
+							<td><p>${product.size}</p></td>
+							<td><p>${product.price}</td>
+							<c:set var="number" value="${product.numbers}" scope="page" />
+							<td><input type="number" min="1" max="${number}" value="1"
+								class="numberInput" /></td>
+							<td><p class="finalPrice">${product.price}</td>
+							<c:url value="/buyer/deleteProduct?delete=${product.identity}"/>
+							<td class="deleteButton"><a href="">&#9746;</a></td>
+						</tr>
 					</c:forEach>
-				</div>
+				</table>
 			</div>
 			<aside class="totalAmount">
 				<div class="blockAmount">
 					<h2 class="amount">Товаров на сумму</h2>
-					<p class="price">450</p>
+					<p class="totalPrice"></p>
 					<h2 class="toPaid">К оплате</h2>
-					<p class="price">450</p>
+					<p class="totalPrice"></p>
+					<c:url value="" var="paramUrl" />
+					<form action="${paramUrl}" method="post" class="formButton">
+						<button class="payButton">ОПЛАТИТЬ</button>
+					</form>
 				</div>
 			</aside>
 		</div>
 		<u:footer />
 	</div>
+	<c:url value="/js" var="javascriptUrl" />
+	<script type="text/javascript"
+		src="${javascriptUrl}/productCardListener.js"></script>
 </body>
 </html>

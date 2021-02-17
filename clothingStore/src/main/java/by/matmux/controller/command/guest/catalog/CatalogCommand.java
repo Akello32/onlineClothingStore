@@ -19,13 +19,20 @@ import by.matmux.service.TypeService;
 
 public class CatalogCommand extends BaseCommand {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Forward execute(HttpServletRequest request, HttpServletResponse response) throws PersistentException {
-		Forward forward = new Forward("/catalog.jsp", false);
 		ClothesService service = (ClothesService) factory.getService(ServiceEnum.CLOTHES);
-		List<Clothes> clothes = service.findAllClothes();
-		List<Clothes> result = new ArrayList<Clothes>();
-		
+
+		List<Clothes> clothes = new ArrayList<>();
+		List<Clothes> temp = (List<Clothes>) request.getAttribute("clothes");
+
+		if (temp != null) {
+			clothes.addAll(temp);
+		} else {
+			clothes = service.findAllClothes();
+		}
+
 		BrandService brandService = (BrandService) factory.getService(ServiceEnum.BRAND);
 		List<Brand> brands = brandService.findAllBrands();
 		TypeService typeService = (TypeService) factory.getService(ServiceEnum.TYPE);
@@ -33,12 +40,11 @@ public class CatalogCommand extends BaseCommand {
 
 		CatalogHelpersMethods.deleteDuplicates(clothes);
 		CatalogHelpersMethods.addTypeAndBrand(clothes, brands, types);
-		
+
 		request.setAttribute("types", types);
 		request.setAttribute("brands", brands);
 		request.setAttribute("clothes", clothes);
 
-		return forward;
+		return null;
 	}
-
 }

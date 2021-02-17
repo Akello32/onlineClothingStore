@@ -9,28 +9,40 @@ body {
 .navBar {
 	display: flex;
 	justify-content: center;
-	align-items: centre;
+	align-items: center;
+	height:100%;
+}
+
+.navBar a{
+	display: flex;
+	height: 100%;
+	align-items: center;
+	padding: 0 10px;
 }
 
 #cartButton {
-/* 	display: none; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
 }
 
 .section {
 	color: white;
-	margin-right: 50px;
 	text-decoration: none;
 }
 
 .sectionButton {
 	color: white;
-	margin-right: 50px;
 	text-decoration: none;
 	display: inline-block;
-	outline: none; /* Для синий ободки */
+	outline: none; 
 	border: 0;
 	font-size: 28px;
 	background: transparent;
+	height: 100%;
+	padding: 0 10px;
+	cursor: pointer;
 }
 
 #logo {
@@ -40,9 +52,11 @@ body {
 }
 
 .header {
-	background: black;
 	height: 165px;
 	color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
 }
 
 .header-fixed {
@@ -55,6 +69,7 @@ body {
 	position: fixed;
 	line-height: 40px;
 	height: 65px;
+	top: 0;
 	text-indent: 20px;
 	width: 100%;
 	color: black;
@@ -82,13 +97,13 @@ body {
 }
 
 .header-notFixed {
-	line-height: 220px;
+	height: 100px;
 	text-align: center;
 	font-size: 28px;
+	background-color: black;
 }
 
 .header-notFixed p {
-	/*  	z-index: 9999;*/
 	position: relative;
 }
 
