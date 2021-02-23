@@ -11,10 +11,23 @@ import by.matmux.dao.TypeDao;
 import by.matmux.exception.PersistentException;
 
 public class ClothesServiceImpl extends ServiceImpl implements ClothesService {
+	
 	@Override
-	public List<Clothes> findAllClothes() throws PersistentException {
+	public List<Clothes> findNextPageClothes(int number) throws PersistentException {
 		ClothesDao dao = transaction.createDao(ClothesDao.class);
-		return dao.readAllClothes();
+		return dao.readNextPageClothes(number);
+	}
+
+	@Override
+	public List<Clothes> findLastPageClothes() throws PersistentException {
+		ClothesDao dao = transaction.createDao(ClothesDao.class);
+		return dao.readLastPageClothes();
+	}
+
+	@Override
+	public List<Clothes> findPrevPageClothes(int number) throws PersistentException {
+		ClothesDao dao = transaction.createDao(ClothesDao.class);
+		return dao.readPrevPageClothes(number);
 	}
 
 	@Override
@@ -23,11 +36,12 @@ public class ClothesServiceImpl extends ServiceImpl implements ClothesService {
 		return dao.readClothesByBrand(brand);
 	}
 
-	@Override
-	public List<Clothes> findClothesBySize(String size) throws PersistentException {
-		ClothesDao dao = transaction.createDao(ClothesDao.class);
-		return dao.readClothesBySize(size);
-	}
+	/*
+	 * @Override public List<Clothes> findClothesBySize(String size) throws
+	 * PersistentException { ClothesDao dao =
+	 * transaction.createDao(ClothesDao.class); return dao.readClothesBySize(size);
+	 * }
+	 */
 
 	@Override
 	public List<Clothes> findClothesByType(Integer typeId) throws PersistentException {
@@ -53,11 +67,12 @@ public class ClothesServiceImpl extends ServiceImpl implements ClothesService {
 		return dao.read(identity);
 	}
 	
-	@Override
-	public List<Clothes> findClothesByNameAndColor(String name, String color) throws PersistentException {
-		ClothesDao dao = transaction.createDao(ClothesDao.class);
-		return dao.readClothesByNameAndColor(name, color);
-	}
+	/*
+	 * @Override public List<Clothes> findClothesByNameAndColor(String name, String
+	 * color) throws PersistentException { ClothesDao dao =
+	 * transaction.createDao(ClothesDao.class); return
+	 * dao.readClothesByNameAndColor(name, color); }
+	 */
 
 	@Override
 	public void save(Clothes clothes) throws PersistentException {

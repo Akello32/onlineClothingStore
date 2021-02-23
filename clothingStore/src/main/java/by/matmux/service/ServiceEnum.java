@@ -1,5 +1,5 @@
 package by.matmux.service;
 
 public enum ServiceEnum {
-	USER, ORDER, CLOTHES, BRAND, TYPE;
+	USER, ORDER, CLOTHES, BRAND, TYPE, SIZE;
 }

@@ -24,17 +24,11 @@ public class CategoryCommand extends BaseCommand {
 
 		ClothesService service = (ClothesService) factory.getService(ServiceEnum.CLOTHES);
 
-		BrandService brandService = (BrandService) factory.getService(ServiceEnum.BRAND);
-		List<Brand> brands = brandService.findAllBrands();
-
 		TypeService typeService = (TypeService) factory.getService(ServiceEnum.TYPE);
 		List<Type> types = typeService.findAllType();
 
 		String category = request.getParameter("category");
 		Type type = null;
-
-		request.setAttribute("brands", brands);
-		request.setAttribute("types", types);
 
 		for (Type t : types) {
 			if (t.getName().equals(category)) {
@@ -48,7 +42,6 @@ public class CategoryCommand extends BaseCommand {
 		}
 
 		List<Clothes> clothes = service.findClothesByType(type.getIdentity());
-		CatalogHelpersMethods.deleteDuplicates(clothes);
 		
 		forward.getAttributes().put("clothes", clothes);
 

@@ -16,34 +16,43 @@
 		<u:header name="КОРЗИНА" />
 		<div class="place">
 			<div class="cart">
-				<table>
-					<tr class="titleName">
-						<th>Товар</th>
-						<th>Размер</th>
-						<th>Цена</th>
-						<th>Кол-во</th>
-						<th>Сумма</th>
-						<th></th>
-					</tr>
-					<c:forEach items="${products}" var="product">
-						<tr class="productCard">
-							<td class="first"><img alt="image" class="productImg"
-								src="${pageContext.request.contextPath}/img/BDimg/${product.imgPath}">
-								<div class="contentName">
-									<p>${product.name}</p>
-									<p class="brandF">${product.brand.name}</p>
-								</div></td>
-							<td><p>${product.size}</p></td>
-							<td><p>${product.price}</td>
-							<c:set var="number" value="${product.numbers}" scope="page" />
-							<td><input type="number" min="1" max="${number}" value="1"
-								class="numberInput" /></td>
-							<td><p class="finalPrice">${product.price}</td>
-							<c:url value="/buyer/deleteProduct?delete=${product.identity}"/>
-							<td class="deleteButton"><a href="">&#9746;</a></td>
-						</tr>
-					</c:forEach>
-				</table>
+				<c:choose>
+					<c:when test="${empty products}">
+						<h1 class="emptyCart">КОРЗИНА ПУСТА:(</h1>
+					</c:when>
+					<c:otherwise>
+						<table>
+							<tr class="titleName">
+								<th>Товар</th>
+								<th>Размер</th>
+								<th>Цена</th>
+								<th>Кол-во</th>
+								<th>Сумма</th>
+								<th></th>
+							</tr>
+							<c:forEach items="${products}" var="product">
+								<tr class="productCard">
+									<td class="first"><img alt="image" class="productImg"
+										src="${pageContext.request.contextPath}/img/BDimg/${product.imgPath}">
+										<div class="contentName">
+											<p>${product.name}</p>
+											<p class="brandF">${product.brand.name}</p>
+										</div></td>
+									<td><p>${product.sizes[0].name}</p></td>
+									<td><p>${product.price}</td>
+									<td><input type="number" min="1"
+										max="${product.sizes[0].numbers}" value="1"
+										class="numberInput" /></td>
+									<td><p class="finalPrice">${product.price}</td>
+									<c:url
+										value="/buyer/deleteProduct.html?productId=${product.identity}&sizeId=${product.sizes[0].identity}"      
+										var="deleteUrl" />
+									<td><a href="${deleteUrl}" class="deleteButton">&#9746;</a></td>
+								</tr>
+							</c:forEach>
+						</table>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<aside class="totalAmount">
 				<div class="blockAmount">

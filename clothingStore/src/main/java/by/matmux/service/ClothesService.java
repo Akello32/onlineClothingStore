@@ -6,13 +6,17 @@ import by.matmux.bean.Clothes;
 import by.matmux.exception.PersistentException;
 
 public interface ClothesService extends Service {
-	List<Clothes> findAllClothes() throws PersistentException;
+	List<Clothes> findNextPageClothes(int number) throws PersistentException;
 
-	List<Clothes> findClothesByNameAndColor(String name, String color) throws PersistentException;
+	List<Clothes> findLastPageClothes() throws PersistentException;
+
+	List<Clothes> findPrevPageClothes(int number) throws PersistentException;
+	
+//	List<Clothes> findClothesByNameAndColor(String name, String color) throws PersistentException;
 	
 	List<Clothes> findClothesByBrand(Integer brand) throws PersistentException;
 	
-	List<Clothes> findClothesBySize(String size) throws PersistentException;
+//	List<Clothes> findClothesBySize(String size) throws PersistentException;
 	
 	List<Clothes> findClothesByType(Integer typeId) throws PersistentException;
 	

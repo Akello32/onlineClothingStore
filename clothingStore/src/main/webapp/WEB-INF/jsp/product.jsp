@@ -35,29 +35,31 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="sizeBlock">
-					<c:forEach items="${clothesSameSize}" var="clothes">
+					<c:forEach items="${sizes}" var="size">
 						<c:url value="/product.html" var="productUrl" />
-						<a class="sizeWrap"> <input class="checkSize" id="${clothes.size}" type="radio"
-							name="product" value="${clothes.identity}" /> <label
-							class="size" for="${clothes.size}">${clothes.size}</label>
-						</a>
+						<c:choose>
+							<c:when test="${size.numbers != 0}">
+								<a class="sizeWrap"> <input class="checkSize"
+									id="${size.identity}" required form="cartButton" type="radio"
+									autocomplete="off" type="radio"
+									name="sizeProduct${product.identity}" value="${size.identity}"
+									form="cartButton" /> <label class="size"
+									for="${size.identity}">${size.name}</label>
+								</a>
+							</c:when>
+						</c:choose>
 					</c:forEach>
 				</div>
-				<c:choose>
-					<c:when test="${not empty product.numbers}">
-						<p class="numbers">Есть в наличии</p>
-						<button class="orderButton">ЗАКАЗАТЬ</button>
-					</c:when>
-					<c:otherwise>
-						<p class="numbers">Товар закончился</p>
-						<button class="">ЗАКАЗАТЬ</button>
-					</c:otherwise>
-				</c:choose>
+				<p class="numbers"></p>
+				<button form="cartButton" value="${product.identity}" name="product"
+					class="orderButton">ЗАКАЗАТЬ</button>
 				<h1 class="descTitle">ОПИСАНИЕ</h1>
 				<p class="descriptionGoods">${product.description}</p>
 			</div>
 		</div>
 		<u:footer />
 	</div>
+	<c:url value="/js" var="javascriptUrl" />
+	<script type="text/javascript" src="${javascriptUrl}/productButton.js"></script>
 </body>
 </html>

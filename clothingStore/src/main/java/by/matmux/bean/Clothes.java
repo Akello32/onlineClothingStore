@@ -1,6 +1,7 @@
 package by.matmux.bean;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author mustafarara
@@ -8,10 +9,10 @@ import java.math.BigDecimal;
  */
 public class Clothes extends Entity {
 	private BigDecimal price;
-	private int numbers;
+	//private int numbers;
 	private Brand brand;
 	private Type type;
-	private String size;
+	private List<Size> sizes;
 	private String color;
 	private String imgPath;
 	private String name;
@@ -50,13 +51,11 @@ public class Clothes extends Entity {
 		this.price = price;
 	}
 
-	public int getNumbers() {
-		return numbers;
-	}
-
-	public void setNumbers(int numbers) {
-		this.numbers = numbers;
-	}
+	/*
+	 * public int getNumbers() { return numbers; }
+	 * 
+	 * public void setNumbers(int numbers) { this.numbers = numbers; }
+	 */
 
 	public Brand getBrand() {
 		return brand;
@@ -74,12 +73,12 @@ public class Clothes extends Entity {
 		this.type = type;
 	}
 
-	public String getSize() {
-		return size;
+	public List<Size> getSizes() {
+		return sizes;
 	}
 
-	public void setSize(String size) {
-		this.size = size;
+	public void setSizes(List<Size> sizes) {
+		this.sizes = sizes;
 	}
 
 	public String getImgPath() {
@@ -107,7 +106,7 @@ public class Clothes extends Entity {
 		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
-		result = prime * result + ((size == null) ? 0 : size.hashCode());
+		result = prime * result + ((sizes == null) ? 0 : sizes.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -150,10 +149,10 @@ public class Clothes extends Entity {
 		} else if (!price.equals(other.price))
 			return false;
 
-		if (size == null) {
-			if (other.size != null)
+		if (sizes == null) {
+			if (other.sizes != null)
 				return false;
-		} else if (!size.equals(other.size))
+		} else if (!sizes.equals(other.sizes))
 			return false;
 
 		if (type == null) {

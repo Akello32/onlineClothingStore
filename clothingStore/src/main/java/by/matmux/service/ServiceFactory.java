@@ -35,6 +35,9 @@ public class ServiceFactory {
 		case BRAND:
 			service = new BrandServiceImpl();
 			break;
+		case SIZE:
+			service = new SizeServiceImpl();
+			break;
 		}
 		Transaction transaction = factory.createTransaction();
 		service.setTransaction(transaction);

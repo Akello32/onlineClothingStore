@@ -39,6 +39,9 @@
 					<div class="category">
 						<h2 class="categoryName">РАЗМЕР</h2>
 						<ul class="items">
+							<li><input class="check" id="XS" type="radio" name="size"
+								value="XS" form="showParam" /><label class="checkLable"
+								for="XS">XS</label></li>
 							<li><input class="check" id="S" type="radio" name="size"
 								value="S" form="showParam" /><label class="checkLable" for="S">S</label></li>
 							<li><input class="check" id="M" type="radio" name="size"
@@ -124,32 +127,56 @@
 			</aside>
 
 			<div class="photos">
-				<c:forEach items="${clothes}" var="product">
-					<div class="productCard">
-						<c:url value="/product.html" var="productLink" />
-						<form action="${productLink}" method="post">
-							<button class="productButton" name="product"
-								value="${product.identity}">
-								<img class="productImg"
-									src="${pageContext.request.contextPath}/img/BDimg/${product.imgPath}"
-									alt="product" />
+				<div class="contentPhotos">
+					<c:forEach items="${clothes}" var="product">
+						<c:set value="${clothes[0].identity}" var="prevPage" scope="page"></c:set>
+						<div class="productCard">
+							<c:url value="/product.html?product=${product.identity}"
+								var="productLink" />
+							<a href="${productLink}" class="productLink"><img
+								class="productImg"
+								src="${pageContext.request.contextPath}/img/BDimg/${product.imgPath}"
+								alt="product" />
 								<div class="productContent">
 									<div class="productName">${product.brand.name}</div>
 									<div class="productName">${product.name}</div>
 									<div class="productPrice">${product.price}BYN</div>
-								</div>
-							</button>
-						</form>
-						<c:url value="/user/order.html" var="order" />
-						<input class="check" type="checkbox" name="product"
-							value="${product.identity}" form="cartButton"
-							id="${product.identity}" /> <label class="orderButton"
-							for="${product.identity}">ЗАКАЗАТЬ</label>
-					</div>
-				</c:forEach>
+								</div> </a>
+							<ul class="sizesMenu">
+								<li class="chooseSize">Выберите размер</li>
+								<c:forEach items="${product.sizes}" var="size">
+									<li class="sizeElem"><input class="checkSize"
+										id="size${size.identity}" autocomplete="off" type="radio"
+										name="sizeProduct${product.identity}" value="${size.identity}"
+										form="cartButton" /><label class="checkLable checkSizeLable"
+										for="size${size.identity}">${size.name}</label></li>
+								</c:forEach>
+							</ul>
+							<input class="checkOrder" type="checkbox" name="product"
+								value="${product.identity}" disabled form="cartButton"
+								id="${product.identity}" /> <label class="orderButton block"
+								for="${product.identity}">ЗАКАЗАТЬ</label>
+						</div>
+						<c:set value="${product.identity}" var="nextPage" scope="page"></c:set>
+					</c:forEach>
+				</div>
+				<div class="pagination">
+					<c:if test="${prevBul}">
+						<c:url value="/catalog.html?previous=${prevPage}" var="prevLink" />
+					</c:if>
+					<c:url value="/img/left-arrow.png" var="prevImg" />
+					<a href="${prevLink}"> <img src="${prevImg}"
+						class="changePage" alt="previous" />
+					</a>
+					<c:if test="${nextBul}">
+						<c:url value="/catalog.html?next=${nextPage}" var="nextLink" />
+					</c:if>
+					<c:url value="/img/right-arrow.png" var="nextImg" />
+					<a href="${nextLink}"><img src="${nextImg}"
+						class="changePage" alt="next" /></a>
+				</div>
 			</div>
 		</section>
-
 		<u:footer />
 	</div>
 
