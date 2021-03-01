@@ -19,9 +19,7 @@
 			<h2 class="inactive underlineHover">
 				<a class="link" href="${signIn}">Sign In</a>
 			</h2>
-			<h2 class="active">
-				Sign Up
-			</h2>
+			<h2 class="active">Sign Up</h2>
 			<c:url value="/singUp.html" var="loginUrl" />
 			<form method="post" action="">
 				<input type="text" id="login" class="fadeIn second" name="login"
@@ -30,9 +28,9 @@
 				<input type="submit" class="fadeIn fourth" value="Sign Up">
 			</form>
 
-			<!-- Remind Passowrd -->
 			<div id="formFooter">
-				<a class="underlineHover" href="#">Forgot Password?</a>
+				<c:url value="/index.html" var="main"></c:url>
+				<a class="underlineHover" href="${main}">На главную</a>
 			</div>
 
 		</div>

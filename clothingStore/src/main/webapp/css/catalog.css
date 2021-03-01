@@ -17,7 +17,6 @@
 }
 
 #side {
-	width: 220px;
 	padding-top: 30px;
 	padding-left: 40px;
 	padding-top: 30px;
@@ -107,18 +106,8 @@
 	margin-right: 16px;
 }
 
-.photos {
-	/* 	width: 100%;
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	grid-gap: 10px;
-	padding: 30px;
-	margin-top: 40px; */
-	
-}
-
 .contentPhotos {
-	width: 100%;
+	max-width: 100%;
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	grid-gap: 10px;
@@ -129,6 +118,7 @@
 .productLink {
 	text-decoration: none;
 	color: black;
+	text-align: center;
 }
 
 .productCard {
@@ -160,19 +150,22 @@
 
 .productName {
 	position: relative;
-	font-size: 22px;
+	font-size: 20px;
 	display: inline;
 }
 
 .productImg {
 	position: relative;
-	height: 230px;
+	max-width: 100%;
+	max-height: 230px;
+	
 }
 
 .productPrice {
 	position: relative;
 	font-weight: bold;
 	margin-top: 5px;
+	margin-bottom: 3px;
 	color: #eb5e0b;
 }
 
@@ -243,7 +236,7 @@
 	background-color: #eb5e0b;
 }
 
-.pagination {	
+.pagination {
 	justify-content: center;
 	align-items: center;
 	padding-left: 30px;
@@ -255,25 +248,3 @@
 	padding-right: 15px;
 	height: 25px;
 }
-
-/* .nextPage {
-	font-size: 35px;
-}
-
-.prevPage {
-	font-size: 35px;
-	height: 25px;
-} */
-
-/* .orderButton.clicked:before {
-	content: 'В КОРЗИНЕ';
-	margin-top: 3px;
-	font-weight: bold;
-	background-color: black;
-	border: none;
-	color: white;
-	padding: 6px 13px;
-	text-decoration: none;
-	font-size: 17px;
-	display: none;
-} */

@@ -96,7 +96,10 @@ public class DispatcherServlet extends HttpServlet {
 			}
 		}	catch(PersistentException e) {
 			logger.error("It is impossible to process request", e);
-			req.setAttribute("error", "Ошибка обработки данных");
+			if (req.getAttribute("error") == null) {
+				req.setAttribute("error", "Ошибка обработки данных");
+			}
+			
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, resp);
 		} 
 	}

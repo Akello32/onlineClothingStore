@@ -10,3 +10,70 @@
 	min-height: 100vh;
 	position: relative;
 }
+
+.place {
+	display: flex;
+	align-items: flex-start;
+}
+
+.userWindow {
+	/* padding: 15px; */
+	margin-top: 60px;
+	margin-left: 50px;
+	margin-bottom: 50px;	
+}
+
+.userActions {
+	margin-top: 60px;
+	margin-left: auto;
+	margin-right: 30px;
+}
+
+.userActions li {
+	display: flex;
+	list-style-type: none;
+	padding-bottom: 15px;
+}
+
+.userActions img {
+	height: 30px;
+	padding-right: 15px;
+}
+
+.userWindow img {
+	height: 50px;
+}
+
+.userImage {
+	display: flex;
+}
+
+.login {
+	margin-left: 10px;
+	font-size: 30px;
+}
+
+.logOut {
+	font-size: 30px;
+	text-decoration: none;
+	color: black;
+}
+
+.logOut:hover {
+	color: #eb5e0b;
+}
+
+.role {
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
+.action {
+	text-decoration: none;
+	color: black;
+	font-size: 25px;
+}
+
+.action:hover {
+	color: #eb5e0b;
+}

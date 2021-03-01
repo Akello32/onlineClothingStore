@@ -11,7 +11,7 @@
 <c:url value="/css/catalog.css" var="cssUrl" />
 <link rel="stylesheet" href="${cssUrl}">
 </head>
-<body>
+<body>	
 	<div class="page">
 		<u:header name="КАТАЛОГ" />
 		<section class="place">
@@ -145,11 +145,14 @@
 							<ul class="sizesMenu">
 								<li class="chooseSize">Выберите размер</li>
 								<c:forEach items="${product.sizes}" var="size">
-									<li class="sizeElem"><input class="checkSize"
-										id="size${size.identity}" autocomplete="off" type="radio"
-										name="sizeProduct${product.identity}" value="${size.identity}"
-										form="cartButton" /><label class="checkLable checkSizeLable"
-										for="size${size.identity}">${size.name}</label></li>
+									<c:if test="${size.numbers != 0}">
+									<c:set var="count" value="1" scope="page"/>
+										<li class="sizeElem"><input class="checkSize"
+											id="size${size.identity}" autocomplete="off" type="radio"
+											name="sizeProduct${product.identity}"
+											value="${size.identity}" form="cartButton" /><label
+											class="checkLable checkSizeLable" for="size${size.identity}">${size.name}</label></li>
+									</c:if>
 								</c:forEach>
 							</ul>
 							<input class="checkOrder" type="checkbox" name="product"
@@ -165,15 +168,15 @@
 						<c:url value="/catalog.html?previous=${prevPage}" var="prevLink" />
 					</c:if>
 					<c:url value="/img/left-arrow.png" var="prevImg" />
-					<a href="${prevLink}"> <img src="${prevImg}"
-						class="changePage" alt="previous" />
+					<a href="${prevLink}"> <img src="${prevImg}" class="changePage"
+						alt="previous" />
 					</a>
 					<c:if test="${nextBul}">
 						<c:url value="/catalog.html?next=${nextPage}" var="nextLink" />
 					</c:if>
 					<c:url value="/img/right-arrow.png" var="nextImg" />
-					<a href="${nextLink}"><img src="${nextImg}"
-						class="changePage" alt="next" /></a>
+					<a href="${nextLink}"><img src="${nextImg}" class="changePage"
+						alt="next" /></a>
 				</div>
 			</div>
 		</section>
@@ -185,3 +188,6 @@
 		src="${javascriptUrl}/categoriesHandler.js"></script>
 </body>
 </html>
+
+
+

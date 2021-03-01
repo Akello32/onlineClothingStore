@@ -9,9 +9,21 @@ import by.matmux.exception.PersistentException;
 public class OrderServiceImpl extends ServiceImpl implements OrderService {
 
 	@Override
+	public Order findById(int id) throws PersistentException {
+		OrderDao dao = transaction.createDao(OrderDao.class);
+		return dao.read(id);
+	}
+
+	@Override
 	public List<Order> findOrdersByStatus(Boolean status) throws PersistentException {
 		OrderDao dao = transaction.createDao(OrderDao.class);
 		return dao.readOrdersByStatus(status);
+	}
+
+	@Override
+	public List<Order> findOrdersByUser(int id) throws PersistentException {
+		OrderDao dao = transaction.createDao(OrderDao.class);
+		return dao.readOrdersByUser(id);
 	}
 
 	@Override
@@ -20,7 +32,7 @@ public class OrderServiceImpl extends ServiceImpl implements OrderService {
 		if (order.getIdentity() != null) {
 			dao.update(order);
 		} else {
-			dao.create(order);
+			order.setIdentity(dao.create(order));
 		}
 	}
 
@@ -29,5 +41,5 @@ public class OrderServiceImpl extends ServiceImpl implements OrderService {
 		OrderDao dao = transaction.createDao(OrderDao.class);
 		dao.delete(identity);
 	}
-	
+
 }

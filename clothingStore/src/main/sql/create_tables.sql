@@ -77,6 +77,7 @@ CREATE TABLE `orders`(
 CREATE TABLE `ordered_clothes` (
 	`identity` INTEGER NOT NULL AUTO_INCREMENT,
 	`thing_id` INTEGER NOT NULL,
+	`size_id` INTEGER NOT NULL,
 	`order_id` INTEGER NOT NULL,
 	PRIMARY KEY (`identity`),
 	FOREIGN KEY (`thing_id`)
@@ -103,3 +104,10 @@ CREATE TABLE `used_discounts` (
 	ON UPDATE CASCADE
 	ON DELETE RESTRICT
 ) ENGINE=INNODB DEFAULT CHARACTER SET utf8;
+
+DROP TABLE clothes;
+
+ALTER TABLE ordered_clothes ADD COLUMN size_id INTEGER NOT NULL AFTER thing_id;
+
+
+

@@ -4,15 +4,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.matmux.bean.Brand;
+import by.matmux.bean.Clothes;
 import by.matmux.bean.Order;
 import by.matmux.bean.Role;
+import by.matmux.bean.Type;
 import by.matmux.bean.User;
 import by.matmux.dao.OrderDao;
+import by.matmux.exception.PersistentException;
 
 public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 	private static final Logger log = LogManager.getLogger(OrderDaoImpl.class);
@@ -53,7 +58,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
 	@Override
 	public Order read(Integer identity) {
-		String sql = "SELECT `status` = ?, `user_id` = ?, `price` = ?, FROM `orders` WHERE `identity` = ?";
+		String sql = "SELECT `status` = ?, `user_id` = ?, `price` = ? FROM `orders` WHERE `identity` = ?";
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		Order order = null;
@@ -64,10 +69,10 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 				order = new Order();
 				order.setIdentity(identity);
 				order.setStatus(resultSet.getBoolean("status"));
-				Integer usetId = resultSet.getInt("user_id");
-				if (!resultSet.wasNull()) {
+				Integer userId = resultSet.getInt("user_id");
+				if (userId != null) {
 					User user = new User();
-					user.setIdentity(usetId);
+					user.setIdentity(userId);
 					order.setUser(user);	
 				} 
 			}
@@ -91,7 +96,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
 	@Override
 	public void update(Order order) {
-		String sql = "UPDATE `status` = ?, `user_id` = ?, `price` = ?, FROM `orders` WHERE `identity` = ?";
+		String sql = "UPDATE `status` = ?, `user_id` = ?, `price` = ? FROM `orders` WHERE `identity` = ?";
 		PreparedStatement statement = null;
 		try {
 			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -130,6 +135,47 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 		}
 	}
 
+	@Override
+	public List<Order> readOrdersByUser(int id) throws PersistentException {
+		String sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY identity";
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			Order order = null;
+			List<Order> orderList = new ArrayList<>();
+			statement = connection.prepareStatement(sql);
+			statement.setInt(1, id);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				order = new Order();
+				order.setIdentity(resultSet.getInt("identity"));
+				order.setPrice(resultSet.getBigDecimal("price"));
+				order.setStatus(resultSet.getBoolean("status"));
+				User user = new User();
+				user.setIdentity(id);
+				order.setUser(user);
+				orderList.add(order);
+			}
+			return orderList;
+		} catch (SQLException e) {
+			throw new PersistentException(e);
+		} finally {
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+			} catch (SQLException e) {
+			}
+			try {
+				if (resultSet != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+			}
+		}
+	}
+
+	
 	@Override
 	public List<Order> readOrdersByStatus(Boolean status) {
 		// TODO Auto-generated method stub

@@ -12,6 +12,7 @@ import by.matmux.dao.AbstractDAO;
 import by.matmux.dao.BrandDao;
 import by.matmux.dao.ClothesDao;
 import by.matmux.dao.OrderDao;
+import by.matmux.dao.OrderedClothesDao;
 import by.matmux.dao.SizeDao;
 import by.matmux.dao.Transaction;
 import by.matmux.dao.TypeDao;
@@ -30,6 +31,7 @@ public class TransactionImpl implements Transaction {
 		classes.put(TypeDao.class, TypeDaoImpl.class);
 		classes.put(BrandDao.class, BrandDaoImpl.class);
 		classes.put(SizeDao.class, SizeDaoImpl.class);
+		classes.put(OrderedClothesDao.class, OrderedClothesImpl.class);
 	}
 
 	private Connection connection;

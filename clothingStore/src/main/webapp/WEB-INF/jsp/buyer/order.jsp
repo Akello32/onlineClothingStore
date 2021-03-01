@@ -17,6 +17,9 @@
 		<div class="place">
 			<div class="cart">
 				<c:choose>
+					<c:when test="${resultOrder != null}">
+						<h1 class="emptyCart">${resultOrder}</h1>
+					</c:when>
 					<c:when test="${empty products}">
 						<h1 class="emptyCart">КОРЗИНА ПУСТА:(</h1>
 					</c:when>
@@ -31,6 +34,10 @@
 								<th></th>
 							</tr>
 							<c:forEach items="${products}" var="product">
+								<input type="hidden" name="orderedClothes"
+									value="${product.identity}" form="orderButton" />
+								<input type="hidden" name="sizeOrderedClothes"
+									value="${product.sizes[0].identity}" form="orderButton" />
 								<tr class="productCard">
 									<td class="first"><img alt="image" class="productImg"
 										src="${pageContext.request.contextPath}/img/BDimg/${product.imgPath}">
@@ -40,12 +47,14 @@
 										</div></td>
 									<td><p>${product.sizes[0].name}</p></td>
 									<td><p>${product.price}</td>
-									<td><input type="number" min="1"
+									<td><input type="number" min="1" name="numbersClothes${product.identity}"
 										max="${product.sizes[0].numbers}" value="1"
-										class="numberInput" /></td>
-									<td><p class="finalPrice">${product.price}</td>
+										class="numberInput" form="orderButton" /></td>
+									<td>
+										<p class="finalPrice">${product.price}
+									</td>
 									<c:url
-										value="/buyer/deleteProduct.html?productId=${product.identity}&sizeId=${product.sizes[0].identity}"      
+										value="/buyer/deleteProduct.html?productId=${product.identity}&sizeId=${product.sizes[0].identity}"
 										var="deleteUrl" />
 									<td><a href="${deleteUrl}" class="deleteButton">&#9746;</a></td>
 								</tr>
@@ -60,8 +69,10 @@
 					<p class="totalPrice"></p>
 					<h2 class="toPaid">К оплате</h2>
 					<p class="totalPrice"></p>
-					<c:url value="" var="paramUrl" />
-					<form action="${paramUrl}" method="post" class="formButton">
+					<c:url value="/buyer/paymentOrder.html" var="paramUrl" />
+					<form action="${paramUrl}" method="post" id="orderButton"
+						class="formButton">
+						<input type="hidden" name="priceOrder" class="priceOrderClass" />
 						<button class="payButton">ОПЛАТИТЬ</button>
 					</form>
 				</div>

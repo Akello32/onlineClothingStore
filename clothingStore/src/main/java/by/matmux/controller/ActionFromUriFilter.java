@@ -18,16 +18,20 @@ import org.apache.logging.log4j.Logger;
 
 import by.matmux.controller.command.BaseCommand;
 import by.matmux.controller.command.LoginCommand;
+import by.matmux.controller.command.LogoutCommand;
 import by.matmux.controller.command.SignUpCommand;
 import by.matmux.controller.command.guest.MainCommand;
 import by.matmux.controller.command.guest.catalog.CatalogCommand;
 import by.matmux.controller.command.guest.catalog.CategoryCommand;
 import by.matmux.controller.command.guest.catalog.ProductCommand;
 import by.matmux.controller.command.guest.catalog.ShowByParam;
+import by.matmux.controller.command.manager.ManagerProfileCommand;
 import by.matmux.controller.command.user.BuyerProfileCommand;
 import by.matmux.controller.command.user.DeleteProductFromCart;
 import by.matmux.controller.command.user.OrderCommand;
 import by.matmux.controller.command.user.OrderFormCommand;
+import by.matmux.controller.command.user.PaymentOrderCommand;
+import by.matmux.controller.command.user.ShowPurchaseCommand;
 
 /**
  * Servlet Filter implementation class ActionFromURLFilter
@@ -51,11 +55,16 @@ public class ActionFromUriFilter implements Filter {
 
 		actions.put("/login", new LoginCommand());
 		actions.put("/signup", new SignUpCommand());
-
+		actions.put("/logout", new LogoutCommand());
+		
+		actions.put("/buyer/paymentOrder", new PaymentOrderCommand());
 		actions.put("/buyer/deleteProduct", new DeleteProductFromCart());
 		actions.put("/buyer/form", new OrderFormCommand());
 		actions.put("/buyer/order", new OrderCommand());
-		actions.put("/buyer/profile", new BuyerProfileCommand());
+		actions.put("/buyer/profileUser", new BuyerProfileCommand());
+		actions.put("/buyer/purchase", new ShowPurchaseCommand());
+		
+		actions.put("/manager/profileManager", new ManagerProfileCommand());
 	}
 
 	/**

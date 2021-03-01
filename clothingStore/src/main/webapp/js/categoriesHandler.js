@@ -18,7 +18,6 @@ orderButtons.forEach((element) => {
 })
 
 pruductCards.forEach((element) => {
-	//element.getElementsByClassName("checkOrder")[0].disabled = 1;
 	element.addEventListener("click", {
 		handleEvent(event) {
 			const productCard = event.currentTarget;
@@ -26,7 +25,6 @@ pruductCards.forEach((element) => {
 			const isSizeChosen = sizeButtons.some(btn => btn.checked);
 			const orderButton = productCard.getElementsByClassName("checkOrder")[0];
 			const lableButton = productCard.getElementsByClassName("orderButton")[0];
-			console.log(sizeButtons);
 			if (isSizeChosen === false) {
 				orderButton.disabled = 1;
 			} else {
@@ -36,4 +34,3 @@ pruductCards.forEach((element) => {
 		}
 	})
 })
-

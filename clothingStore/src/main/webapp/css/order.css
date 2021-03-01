@@ -15,7 +15,6 @@
 	margin-top: 50px;
 	display: flex;
 	align-items: flex-start;
-	display: flex;
 }
 
 .cart {
@@ -87,10 +86,6 @@ td {
 
 .deleteButton:hover {
 	color: #eb5e0b;
-}
-
-.emptyCart {
-	
 }
 
 .totalAmount {

@@ -34,11 +34,6 @@ public class OrderCommand extends BaseCommand {
 
 		Cookie[] cookies = request.getCookies();
 
-		Order order = new Order();
-		User user = (User) request.getSession().getAttribute("authorizedUser");
-		order.setUser(user);
-		order.setStatus(false);
-
 		if (request.getSession().getAttribute("userOrder") != null) {
 			@SuppressWarnings("unchecked")
 			Map<String, Map<String, List<String>>> userOrder = (Map<String, Map<String, List<String>>>) request
@@ -83,7 +78,6 @@ public class OrderCommand extends BaseCommand {
 
 		if (!clothes.isEmpty()) {
 			CatalogHelpersMethods.addTypeAndBrand(clothes, brands, types);
-			request.setAttribute("order", order);
 			request.setAttribute("products", clothes);
 		}
 

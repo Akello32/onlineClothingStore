@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class Clothes extends Entity {
 	private BigDecimal price;
-	//private int numbers;
 	private Brand brand;
 	private Type type;
 	private List<Size> sizes;
@@ -50,12 +49,6 @@ public class Clothes extends Entity {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-
-	/*
-	 * public int getNumbers() { return numbers; }
-	 * 
-	 * public void setNumbers(int numbers) { this.numbers = numbers; }
-	 */
 
 	public Brand getBrand() {
 		return brand;

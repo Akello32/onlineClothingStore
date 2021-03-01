@@ -1,4 +1,4 @@
-package by.matmux.dao.mysql;
+	package by.matmux.dao.mysql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -96,8 +96,9 @@ public class SizeDaoImpl extends BaseDaoImpl implements SizeDao {
 		try {
 			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, entity.getName());
-			statement.setInt(2, entity.getNumbers());
-			statement.setInt(3, entity.getClothesId());
+			statement.setInt(2, entity.getClothesId());
+			statement.setInt(3, entity.getNumbers());
+			statement.setInt(4, entity.getIdentity());
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			log.error("SQLException when performing a update operation");

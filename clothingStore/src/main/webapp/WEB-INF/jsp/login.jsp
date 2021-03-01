@@ -33,7 +33,8 @@
 
 			<!-- Remind Passowrd -->
 			<div id="formFooter">
-				<a class="underlineHover" href="#">Forgot Password?</a>
+				 <c:url value="/index.html" var="main"></c:url>
+				<a class="underlineHover" href="${main}">На главную</a>
 			</div>
 
 		</div>

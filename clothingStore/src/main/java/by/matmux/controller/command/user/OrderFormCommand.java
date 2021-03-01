@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.matmux.bean.Order;
 import by.matmux.bean.User;
 import by.matmux.controller.command.BaseCommand;
 import by.matmux.controller.command.Forward;
@@ -42,8 +43,11 @@ public class OrderFormCommand extends BaseCommand {
 			userOrder.putAll((Map<String, Map<String, List<String>>>) request.getSession().getAttribute("userOrder"));
 		}
 
+		Order order = new Order();
 		User user = (User) request.getSession().getAttribute("authorizedUser");
-
+		order.setUser(user);
+		order.setStatus(false);
+		
 		Cookie cookie = new Cookie("userId", user.getIdentity().toString());
 		response.addCookie(cookie);
 
@@ -66,6 +70,7 @@ public class OrderFormCommand extends BaseCommand {
 			}
 			userOrder.put(user.getIdentity().toString(), idAndSizeMap);
 			request.getSession().setAttribute("userOrder", userOrder);
+			request.getSession().setAttribute("order", order);
 		}
 
 		return forward;

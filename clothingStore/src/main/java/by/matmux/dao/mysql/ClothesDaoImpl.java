@@ -30,10 +30,6 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 		try {
 			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			statement.setBigDecimal(1, entity.getPrice());
-			/*
-			 * statement.setInt(2, entity.getNumbers()); statement.setString(3,
-			 * entity.getSize());
-			 */
 			statement.setString(2, entity.getColor());
 			statement.setInt(3, entity.getType().getIdentity());
 			statement.setInt(4, entity.getBrand().getIdentity());
@@ -191,10 +187,6 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 				clothes = new Clothes();
 				clothes.setIdentity(resultSet.getInt("identity"));
 				clothes.setPrice(resultSet.getBigDecimal("price"));
-				/*
-				 * clothes.setNumbers(resultSet.getInt("numbers"));
-				 * clothes.setSize(resultSet.getString("size"));
-				 */
 				clothes.setSizes(sizeService.readByClothesId(resultSet.getInt("identity")));
 				clothes.setColor(resultSet.getString("color"));
 				Type type = new Type();

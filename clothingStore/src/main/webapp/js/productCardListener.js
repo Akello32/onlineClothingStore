@@ -1,4 +1,5 @@
 const rows = [...document.getElementsByClassName("productCard")];
+const totalPriceInput = document.getElementsByClassName("priceOrderClass")[0];
 
 rows.forEach((element) => {
 	const input = element.getElementsByClassName("numberInput")[0];
@@ -27,4 +28,7 @@ function calcFinalPrice() {
 	total.forEach((element) => {
 		element.textContent = totalPrice;
 	})
+	
+	totalPriceInput.value = total[1].textContent;
+	console.log(totalPriceInput);
 }
