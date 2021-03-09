@@ -9,4 +9,10 @@ public interface BrandService extends Service {
 	List<Brand> findAllBrands() throws PersistentException;
 	
 	Brand findByIndentity(Integer id) throws PersistentException;
+	
+	Brand findByName(String name) throws PersistentException;
+	
+	void save(Brand brand) throws PersistentException;
+
+	void delete(Integer identity) throws PersistentException;
 }

@@ -1,18 +1,14 @@
 package by.matmux.controller.command.guest.catalog;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import by.matmux.bean.Brand;
 import by.matmux.bean.Clothes;
 import by.matmux.bean.Type;
+import by.matmux.exception.PersistentException;
+import by.matmux.service.ClothesService;
 
 public class CatalogHelpersMethods {
 	public static void addTypeAndBrand(List<Clothes> clothes, List<Brand> brands, List<Type> types) {
@@ -41,19 +37,41 @@ public class CatalogHelpersMethods {
 		}
 	}
 
-	public static void/*List<Clothes>*/ deleteDuplicates(List<Clothes> clothes) {
-		List<Clothes> result = new ArrayList<>();
-		Set<String> imageSet = new HashSet<>();
-		
-		for (Clothes c : clothes) {
-			if (!imageSet.contains(c.getImgPath())) {
-				imageSet.add(c.getImgPath());
-				result.add(c);
+	public static List<Clothes> getPaginationCatalog(List<Clothes> clothes, ClothesService service, int prevId,
+			int nextId, HttpServletRequest request) throws PersistentException {
+		if (prevId != 0) {
+			clothes = service.findPrevPageClothes(prevId);
+			if (clothes.size() == 9) {
+				clothes.remove(8);
+				request.setAttribute("prevBul", true);
+				request.setAttribute("nextBul", true);
+				request.setAttribute("startId", prevId+1);
+			}
+		} else if (nextId != 0) {
+			clothes = service.findNextPageClothes(nextId);
+			request.setAttribute("prevBul", true);
+			if (clothes.size() == 9) {
+				clothes.remove(8);
+				request.setAttribute("nextBul", true);
+				request.setAttribute("startId", nextId+1);
+			}
+		} else {
+			clothes = service.findNextPageClothes(0);
+			if (clothes.size() == 9) {
+				clothes.remove(8);
+				request.setAttribute("nextBul", true);
 			}
 		}
-		
-		clothes.clear();
-		clothes.addAll(result);
-//		return result;
+		return clothes;
 	}
+
+	/*
+	 * public static void deleteDuplicates(List<Clothes> clothes) { List<Clothes>
+	 * result = new ArrayList<>(); Set<String> imageSet = new HashSet<>();
+	 * 
+	 * for (Clothes c : clothes) { if (!imageSet.contains(c.getImgPath())) {
+	 * imageSet.add(c.getImgPath()); result.add(c); } }
+	 * 
+	 * clothes.clear(); clothes.addAll(result); // return result; }
+	 */
 }

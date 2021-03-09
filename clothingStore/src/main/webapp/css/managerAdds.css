@@ -1,0 +1,105 @@
+@charset "UTF-8";
+
+.workplace {
+	/* width: 100%; */
+	padding: 20px;
+	margin-left: 30px;
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+.nameProduct {
+	width: 200px;
+	margin-bottom: 5px;
+}
+
+.sizeProduct {
+	width: 100px;
+}
+
+table {
+	border-collapse: collapse;
+	line-height: 1.1;
+}
+
+.titleName {
+	text-align: left;
+	border: none;
+}
+
+.lastTr {
+	border-bottom: 2px solid black;
+}
+
+.title {
+	font-size: 18px;
+	padding: 10px 25px;
+}
+
+td {
+	text-align: center;
+	font-size: 20px;
+	padding: 5px 15px;
+}
+
+.first {
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.contentName {
+	/* width: 110px; */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding-left: 15px;
+}
+
+.first p {
+	padding-bottom: 5px;
+}
+
+.brandF {
+	display: inline;
+}
+
+.productImg {
+	height: 115px;
+}
+
+.numberInput {
+	width: 55px;
+}
+
+.addButton {
+	position: relative;
+	margin-top: 3px;
+	font-weight: bold;
+	background-color: black;
+	border: none;
+	color: white;
+	padding: 6px 13px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.addButton:active {
+	background-color: #eb5e0b;
+}
+
+.check {
+	display: none;
+}
+
+.check:checked ~ .checkLable {
+	color: #eb5e0b;
+	font-size: 17px;
+}
+
+.checkLable {
+	padding-left: 5px;
+	font-size: 15px
+}
+
+

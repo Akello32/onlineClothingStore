@@ -1,5 +1,6 @@
 package by.matmux.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +27,10 @@ import by.matmux.controller.command.guest.catalog.CatalogCommand;
 import by.matmux.controller.command.guest.catalog.CategoryCommand;
 import by.matmux.controller.command.guest.catalog.ProductCommand;
 import by.matmux.controller.command.guest.catalog.ShowByParam;
+import by.matmux.controller.command.manager.SaveProductCommand;
+import by.matmux.controller.command.manager.DeleteProductCommand;
 import by.matmux.controller.command.manager.ManagerProfileCommand;
+import by.matmux.controller.command.manager.UpdateProductFormCommand;
 import by.matmux.controller.command.user.BuyerProfileCommand;
 import by.matmux.controller.command.user.DeleteProductFromCart;
 import by.matmux.controller.command.user.OrderCommand;
@@ -65,6 +70,10 @@ public class ActionFromUriFilter implements Filter {
 		actions.put("/buyer/purchase", new ShowPurchaseCommand());
 		
 		actions.put("/manager/profileManager", new ManagerProfileCommand());
+		actions.put("/manager/managerUpdForm", new UpdateProductFormCommand());
+		actions.put("/manager/managerUpd", new UpdateProductFormCommand());
+		actions.put("/manager/managerDel", new DeleteProductCommand());
+		actions.put("/manager/addsProduct", new SaveProductCommand());
 	}
 
 	/**

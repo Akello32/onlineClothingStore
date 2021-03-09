@@ -33,51 +33,31 @@ public class CatalogCommand extends BaseCommand {
 		List<Clothes> temp = (List<Clothes>) request.getAttribute("clothes");
 
 		int prevId = 0;
-		int nextId  = 0;
-		boolean lastPage = false;
-		
+		int nextId = 0;
+
 		if (request.getParameter("previous") != null) {
 			prevId = Integer.parseInt(request.getParameter("previous"));
-			log.debug(prevId);
 		}
-		
+
 		if (request.getParameter("next") != null) {
 			nextId = Integer.parseInt(request.getParameter("next"));
-			log.debug(nextId);
-		}
-		
-		if (request.getParameter("last") != null) {
-			lastPage = Boolean.parseBoolean(request.getParameter("last"));
-			log.debug(lastPage);
 		}
 
 		if (temp != null) {
 			clothes.addAll(temp);
-		} else if (prevId != 0) {
-			clothes = service.findPrevPageClothes(prevId);
-			if (clothes.size() == 9) {
-				clothes.remove(8);
-				request.setAttribute("prevBul", true);
-				request.setAttribute("nextBul", true);
-				request.setAttribute("startId", prevId+1);
-			}
-		} else if (nextId != 0) {
-			clothes = service.findNextPageClothes(nextId);
-			request.setAttribute("prevBul", true);
-			if (clothes.size() == 9) {
-				clothes.remove(8);
-				request.setAttribute("nextBul", true);
-				request.setAttribute("startId", nextId+1);
-			}
-		} /*
-			 * else if (lastPage) { clothes = service.findLastPageClothes();
-			 * request.setAttribute("previousBul", true); }
-			 */ else {
-			clothes = service.findNextPageClothes(0);
-			if (clothes.size() == 9) {
-				clothes.remove(8);
-				request.setAttribute("nextBul", true);
-			}
+		} else {
+			clothes = CatalogHelpersMethods.getPaginationCatalog(clothes, service, prevId, nextId, request);
+			/*
+			 * if (prevId != 0) { clothes = service.findPrevPageClothes(prevId); if
+			 * (clothes.size() == 9) { clothes.remove(8); request.setAttribute("prevBul",
+			 * true); request.setAttribute("nextBul", true); request.setAttribute("startId",
+			 * prevId+1); } } else if (nextId != 0) { clothes =
+			 * service.findNextPageClothes(nextId); request.setAttribute("prevBul", true);
+			 * if (clothes.size() == 9) { clothes.remove(8); request.setAttribute("nextBul",
+			 * true); request.setAttribute("startId", nextId+1); } } else { clothes =
+			 * service.findNextPageClothes(0); if (clothes.size() == 9) { clothes.remove(8);
+			 * request.setAttribute("nextBul", true); }
+			 */
 		}
 
 		BrandService brandService = (BrandService) factory.getService(ServiceEnum.BRAND);

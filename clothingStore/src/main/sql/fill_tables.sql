@@ -33,8 +33,6 @@ VALUES
 (8, 		   "WINTER JACKET"),
 (9, 		   "JACKET");
 
-UPDATE `clothes_type` SET `name` = "JACKET" WHERE `identity` = 9;
-
 INSERT INTO `brands` 
 (`identity`, `name`)
 VALUES

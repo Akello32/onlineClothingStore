@@ -10,4 +10,9 @@ public interface TypeService extends Service {
 	
 	Type findByIndentity(Integer id) throws PersistentException;
 	
+	Type findByName(String name) throws PersistentException;	
+	
+	void save(Type type) throws PersistentException;
+
+	void delete(Integer identity) throws PersistentException;
 }

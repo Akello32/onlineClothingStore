@@ -32,7 +32,7 @@ public class SizeServiceImpl extends ServiceImpl implements SizeService{
 		if (size.getIdentity() != null) {
 			dao.update(size);
 		} else {
-			dao.create(size);
+			size.setIdentity(dao.create(size));
 		}		
 	}
 

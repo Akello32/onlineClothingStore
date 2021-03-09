@@ -36,13 +36,6 @@ public class ClothesServiceImpl extends ServiceImpl implements ClothesService {
 		return dao.readClothesByBrand(brand);
 	}
 
-	/*
-	 * @Override public List<Clothes> findClothesBySize(String size) throws
-	 * PersistentException { ClothesDao dao =
-	 * transaction.createDao(ClothesDao.class); return dao.readClothesBySize(size);
-	 * }
-	 */
-
 	@Override
 	public List<Clothes> findClothesByType(Integer typeId) throws PersistentException {
 		ClothesDao dao = transaction.createDao(ClothesDao.class);
@@ -67,20 +60,13 @@ public class ClothesServiceImpl extends ServiceImpl implements ClothesService {
 		return dao.read(identity);
 	}
 	
-	/*
-	 * @Override public List<Clothes> findClothesByNameAndColor(String name, String
-	 * color) throws PersistentException { ClothesDao dao =
-	 * transaction.createDao(ClothesDao.class); return
-	 * dao.readClothesByNameAndColor(name, color); }
-	 */
-
 	@Override
 	public void save(Clothes clothes) throws PersistentException {
 		ClothesDao dao = transaction.createDao(ClothesDao.class);
 		if (clothes.getIdentity() != null) {
 			dao.update(clothes);
 		} else {
-			dao.create(clothes);
+			clothes.setIdentity(dao.create(clothes));
 		}
 	}
 

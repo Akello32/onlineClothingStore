@@ -23,7 +23,7 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 
 	@Override
 	public Integer create(Clothes entity) throws PersistentException {
-		String sql = "INSERT INTO `books` (`price`, `color`, `typeID`, `brandID`, `gender`, `image`, `name`, `description`) "
+		String sql = "INSERT INTO `clothes` (`price`, `color`, `typeID`, `brandID`, `gender`, `image`, `name`, `description`) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -131,6 +131,7 @@ public class ClothesDaoImpl extends BaseDaoImpl implements ClothesDao {
 			statement.setString(6, entity.getImgPath());
 			statement.setString(7, entity.getName());
 			statement.setString(8, entity.getDescription());
+			statement.setInt(9, entity.getIdentity());
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			log.error("SQLException when performing a update operation");

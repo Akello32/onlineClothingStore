@@ -15,8 +15,30 @@ public class BrandServiceImpl extends ServiceImpl implements BrandService {
 	}
 
 	@Override
+	public Brand findByName(String name) throws PersistentException {
+		BrandDao dao = transaction.createDao(BrandDao.class);
+		return dao.readBrandByName(name);
+	}
+
+	@Override
 	public Brand findByIndentity(Integer id) throws PersistentException {
 		BrandDao dao = transaction.createDao(BrandDao.class);
 		return dao.read(id);
+	}
+
+	@Override
+	public void save(Brand brand) throws PersistentException {
+		BrandDao dao = transaction.createDao(BrandDao.class);
+		if (brand.getIdentity() != null) {
+			dao.update(brand);
+		} else {
+			brand.setIdentity(dao.create(brand));
+		}	
+	}
+
+	@Override
+	public void delete(Integer identity) throws PersistentException {
+		BrandDao dao = transaction.createDao(BrandDao.class);
+		dao.delete(identity);		
 	}
 }

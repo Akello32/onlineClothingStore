@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.matmux.bean.Brand;
 import by.matmux.bean.Type;
 import by.matmux.dao.TypeDao;
 import by.matmux.exception.PersistentException;
@@ -19,7 +20,7 @@ public class TypeDaoImpl extends BaseDaoImpl implements TypeDao{
 
 	@Override
 	public Integer create(Type entity) throws PersistentException {
-		String sql = "INSERT INTO `clothes_type` ('name') VALUES (?)";
+		String sql = "INSERT INTO `clothes_type` (`name`) VALUES (?)";
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		try {
@@ -34,21 +35,23 @@ public class TypeDaoImpl extends BaseDaoImpl implements TypeDao{
 				throw new PersistentException();
 			}
 		} catch (SQLException e) {
-			log.error("There ");
+			log.error("SQLException when performing a create operation ");
 			throw new PersistentException(e);
 		} finally {
 			try {
 				if (resultSet != null) {
 					resultSet.close();
 				}
-			} catch (SQLException e) {}
+			} catch (SQLException e) {
+			}
 			try {
 				if (statement != null) {
 					statement.close();
 				} else {
 					log.debug("null");
 				}
-			} catch (SQLException e) {}
+			} catch (SQLException e) {
+			}
 		}
 	}
 
@@ -125,6 +128,35 @@ public class TypeDaoImpl extends BaseDaoImpl implements TypeDao{
 		}
 	}
 	
+	@Override
+	public Type readTypeByName(String name) throws PersistentException {
+		String sql = "SELECT * FROM `clothes_type` where `name` = ?";
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			Type type = null;
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, name);
+			resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				type = new Type();
+				type.setIdentity(resultSet.getInt("identity"));
+				type.setName(name);
+			}
+			return type;
+		} catch(SQLException e) {
+			log.error("SQLExeption when performing a read operation");
+			throw new PersistentException();
+		} finally {
+			try {
+				resultSet.close();
+			} catch(SQLException | NullPointerException e) {}
+			try {
+				statement.close();
+			} catch(SQLException | NullPointerException e) {}
+		}
+	}
+
 	@Override
 	public List<Type> readAllType() throws PersistentException {
 		String sql = "SELECT `identity`, `name` FROM `clothes_type` ORDER BY `name`";

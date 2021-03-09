@@ -11,6 +11,11 @@
 	position: relative;
 }
 
+.result {
+	margin-top: 60px;
+	margin-left: 50px;
+}
+
 .place {
 	display: flex;
 	align-items: flex-start;
@@ -20,7 +25,7 @@
 	/* padding: 15px; */
 	margin-top: 60px;
 	margin-left: 50px;
-	margin-bottom: 50px;	
+	margin-bottom: 50px;
 }
 
 .userActions {
@@ -71,7 +76,7 @@
 .action {
 	text-decoration: none;
 	color: black;
-	font-size: 25px;
+	font-size: 22px;
 }
 
 .action:hover {
