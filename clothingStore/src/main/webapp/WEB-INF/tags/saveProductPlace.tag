@@ -93,12 +93,12 @@
 			</td>
 			<td class="first"><p>
 					<input class="check" name="genderProduct" required id="men"
-						form="addProduct" type="radio" value="men"> <label
+						form="addProduct" required type="radio" value="men"> <label
 						class="checkLable" for="men">МУЖСКОЙ</label>
 				</p>
 				<p>
 					<input class="check" name="genderProduct" required id="woman"
-						form="addProduct" type="radio" value="women"> <label
+						form="addProduct" required type="radio" value="women"> <label
 						class="checkLable" for="woman">ЖЕНСКИЙ</label>
 				</p>
 		</tr>

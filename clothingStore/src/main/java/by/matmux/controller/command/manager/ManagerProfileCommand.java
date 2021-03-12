@@ -30,7 +30,6 @@ public class ManagerProfileCommand extends BaseCommand {
 		String update = request.getParameter("updProduct");
 		String del = request.getParameter("delProduct");
 		
-		log.debug("update " + update);
 		if (adds != null) {
 			if (update != null) {
 				if (request.getAttribute("emptySize") != null) {
@@ -45,16 +44,12 @@ public class ManagerProfileCommand extends BaseCommand {
 			}
 			return null;
 		} else if (update != null || del != null ) {
-			log.debug("start work ");
 			ClothesService service = (ClothesService) factory.getService(ServiceEnum.CLOTHES);
 
 			List<Clothes> clothes = new ArrayList<>();
 
 			int prevId = 0;
 			int nextId = 0;
-
-			log.debug("prevId " + prevId);
-			log.debug("nextId " + nextId);
 			
 			if (request.getParameter("previous") != null) {
 				prevId = Integer.parseInt(request.getParameter("previous"));

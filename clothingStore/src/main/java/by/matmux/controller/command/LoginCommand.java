@@ -27,7 +27,8 @@ public class LoginCommand extends BaseCommand {
 	static {
 		menu.put(Role.BUYER, new ArrayList<MenuItem>(Arrays.asList(new MenuItem("/buyer/form.html", "КОРЗИНА"),
 				new MenuItem("/buyer/profileUser.html", "ПРОФИЛЬ"))));
-		menu.put(Role.MANAGER, new ArrayList<MenuItem>(Arrays.asList(new MenuItem("/manager/profileManager.html", "ПРОФИЛЬ"))));		
+		menu.put(Role.MANAGER, new ArrayList<MenuItem>(Arrays.asList(new MenuItem("/manager/profileManager.html", "ПРОФИЛЬ"))));
+		menu.put(Role.ADMIN, new ArrayList<MenuItem>(Arrays.asList(new MenuItem("/admin/profileAdmin.html", "ПРОФИЛЬ"))));
 	}
 
 	@Override
