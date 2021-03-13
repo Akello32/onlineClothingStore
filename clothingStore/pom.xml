@@ -58,31 +58,24 @@
 
 	<build>
 		<finalName>clothingStore</finalName>
-		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
-				defaults (may be moved to parent pom) -->
+		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>org. apache. maven. plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.0.2</version>
-					<executions>
-						<execution>
-							<phase>package</phase>
-							<goals>
-								<goal>copy</goal>
-							</goals>
-							<configuration>
-								<artifactItems>
-									<artifactItem>
-										<groupId>com.github.jsimone</groupId>
-										<artifactId>webapp-runner</artifactId>
-										<version>8.5.31.0</version>
-										<destFileName>webapp-runner.jar</destFileName>
-									</artifactItem>
-								</artifactItems>
-							</configuration>
-						</execution>
-					</executions>
+					<groupId>com.heroku.sdk</groupId>
+					<artifactId>heroku-maven-plugin</artifactId>
+					<version>{version}</version>
+					<configuration>
+						<appname>heroku-demo-stackabuse</appname>
+						<includetarget>false</includetarget>
+						<includes>
+							<include>${project.build.directory}/${project.build.finalName}.jar</include>
+						</includes>
+						<jdkversion>1.8</jdkversion>
+						<processtypes>
+							<web>java $JAVA_OPTS -jar
+								${project.build.directory}/${project.build.finalName}.jar</web>
+						</processtypes>
+					</configuration>
 				</plugin>
 				<plugin>
 					<artifactId>maven-clean-plugin</artifactId>
