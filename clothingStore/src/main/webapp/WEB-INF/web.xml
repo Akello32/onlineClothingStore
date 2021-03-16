@@ -5,25 +5,17 @@
 
 	<display-name>Clothing Store</display-name>
 	<servlet>
-		<description>
-		</description>
-		<display-name>TestServ</display-name>
-		<servlet-name>TestServ</servlet-name>
-		<servlet-class>by.matmux.controller.command.manager.TestServ</servlet-class>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<servlet-class>by.matmux.controller.DispatcherServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>TestServ</servlet-name>
-		<url-pattern>/TestServ</url-pattern>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-	<!-- <servlet-mapping> <servlet-name>DispatcherServlet</servlet-name> <url-pattern>/DispatcherServlet</url-pattern> 
-		</servlet-mapping> -->
-	<!-- <filter> <filter-name>ActionFromUriFilter</filter-name> <filter-class>by.matmux.controller.ActionFromUriFilter</filter-class> 
-		</filter> <filter-mapping> <filter-name>ActionFromUriFilter</filter-name> 
-		<url-pattern>/index.jsp</url-pattern> </filter-mapping> -->
 	<filter>
 		<filter-name>EncodingFilter</filter-name>
 		<filter-class>by.matmux.controller.EncodingFilter</filter-class>
@@ -33,7 +25,22 @@
 		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>*.html</url-pattern>
 	</filter-mapping>
-
+	<filter>
+		<filter-name>ActionFromUriFilter</filter-name>
+		<filter-class>by.matmux.controller.ActionFromUriFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ActionFromUriFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+<!-- 	<filter>
+		<filter-name>SecurityFilter</filter-name>
+		<filter-class>by.matmux.controller.SecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SecurityFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping> -->
 	<error-page>
 		<error-code>404</error-code>
 		<location>/WEB-INF/jsp/error.jsp</location>

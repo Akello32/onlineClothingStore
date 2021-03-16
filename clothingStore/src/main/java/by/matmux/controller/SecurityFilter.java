@@ -21,7 +21,6 @@ import by.matmux.bean.Role;
 import by.matmux.bean.User;
 import by.matmux.controller.command.BaseCommand;
 
-@WebFilter(urlPatterns = { "*.html" })
 public class SecurityFilter implements Filter{
 	private static final Logger logger = LogManager.getLogger(SecurityFilter.class);
 
