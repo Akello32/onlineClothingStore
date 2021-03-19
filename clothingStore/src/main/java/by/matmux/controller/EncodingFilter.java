@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Servlet Filter implementation class EncodingFilter
  */
+@WebFilter(urlPatterns = { "*.html" })
 public class EncodingFilter implements Filter {
 
 	/**

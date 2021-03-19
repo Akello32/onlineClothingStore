@@ -19,6 +19,7 @@ import by.matmux.dao.pool.ConnectionPool;
 import by.matmux.exception.PersistentException;
 import by.matmux.service.ServiceFactory;
 
+@WebServlet(urlPatterns = { "*.html" })
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

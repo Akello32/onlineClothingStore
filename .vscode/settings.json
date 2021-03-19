@@ -1,0 +1,21 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "spring-boot.ls.checkJVM": false,
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "clothesStore",
+            "group": "clothesStore",
+            "database": "clothingDB",
+            "username": "akello",
+            "password": "2003/2003",
+            "connectionTimeout": 1
+        }
+    ]
+}
