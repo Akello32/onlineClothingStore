@@ -1,6 +1,6 @@
 @charset "UTF-8";
 footer {
-	padding: 5px;
+	padding: 6px;
 	background: black;
 	color: white;
 	font-size: 20px;
@@ -10,6 +10,8 @@ footer {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	position: sticky;
+	top: 100%;
 }
 
 #logo1 {

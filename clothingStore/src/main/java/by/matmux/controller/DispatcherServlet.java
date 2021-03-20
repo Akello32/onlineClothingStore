@@ -25,10 +25,18 @@ public class DispatcherServlet extends HttpServlet {
 
 	private static Logger logger = LogManager.getLogger(DispatcherServlet.class);
 
+	// public static final String DB_DRIVER_CLASS = "com.mysql.jdbc.Driver";
+	// public static final String	 DB_URL = "jdbc:mysql://localhost:3306/clothingDB?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8";
+	// public static final String DB_USER = "akello";
+	// public static final String DB_PASSWORD = "2003/2003";
+	// public static final int DB_POOL_START_SIZE = 10;
+	// public static final int DB_POOL_MAX_SIZE = 1000;
+	// public static final int DB_POOL_CHECK_CONNECTION_TIMEOUT = 0;
+
 	public static final String DB_DRIVER_CLASS = "com.mysql.jdbc.Driver";
-	public static final String	 DB_URL = "jdbc:mysql://localhost:3306/clothingDB?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8";
-	public static final String DB_USER = "akello";
-	public static final String DB_PASSWORD = "2003/2003";
+	public static final String	 DB_URL = "jdbc:mysql://d3y0lbg7abxmbuoi.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/inwhreyn62qznjm0?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8";
+	public static final String DB_USER = "ohzll4hfa2cdwmli";
+	public static final String DB_PASSWORD = "d7cu6ry9pcvn2p6w";
 	public static final int DB_POOL_START_SIZE = 10;
 	public static final int DB_POOL_MAX_SIZE = 1000;
 	public static final int DB_POOL_CHECK_CONNECTION_TIMEOUT = 0;

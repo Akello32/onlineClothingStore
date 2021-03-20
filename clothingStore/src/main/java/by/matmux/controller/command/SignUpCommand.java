@@ -1,5 +1,11 @@
 package by.matmux.controller.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,6 +22,13 @@ import by.matmux.service.UserService;
 public class SignUpCommand extends BaseCommand {
 	private static Logger logger = LogManager.getLogger(SignUpCommand.class);
 
+	private static Map<Role, List<MenuItem>> menu = new ConcurrentHashMap<>();
+
+	static {
+		menu.put(Role.BUYER, new ArrayList<MenuItem>(Arrays.asList(new MenuItem("/buyer/form.html", "КОРЗИНА"),
+				new MenuItem("/buyer/profileUser.html", "ПРОФИЛЬ"))));
+	}
+
 	@Override
 	public Forward execute(HttpServletRequest request, HttpServletResponse response) throws PersistentException {
 		String login = request.getParameter("login");
@@ -29,9 +42,10 @@ public class SignUpCommand extends BaseCommand {
 			HttpSession session = request.getSession();
 			service.save(user);
 			session.setAttribute("authorizedUser", user);
+			session.setAttribute("menu", menu.get(user.getRole()));
 			logger.info(String.format("user \"%s\" is logged in from %s (%s:%s)", login, request.getRemoteAddr(),
 					request.getRemoteHost(), request.getRemotePort()));
-			return new Forward("/index.jsp");
+			return new Forward("/index.html", true);
 		} else {
 			request.setAttribute("message", "Имя пользователя или пароль не опознанны");
 			logger.info(String.format("user \"%s\" unsuccessfully tried to log in from %s (%s:%s)", login,

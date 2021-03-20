@@ -20,10 +20,10 @@
 				<a class="link" href="${signIn}">Sign In</a>
 			</h2>
 			<h2 class="active">Sign Up</h2>
-			<c:url value="/singUp.html" var="loginUrl" />
-			<form method="post" action="">
+			<c:url value="/signup.html" var="loginUrl" />
+			<form method="post" action="${loginUrl}">
 				<input type="text" id="login" class="fadeIn second" name="login"
-					placeholder="login"> <input type="text" id="password"
+					placeholder="login"> <input type="password" id="password"
 					class="fadeIn third" name="password" placeholder="password">
 				<input type="submit" class="fadeIn fourth" value="Sign Up">
 			</form>
